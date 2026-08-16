@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Вариации «топбар + тикер»</title>
+<style>
+  :root { --text: #1f1f1f; --soft: #5f6368; --border: #e3e5e8; --accent: #3f7de8; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Inter, 'Segoe UI', sans-serif; background: #f6f7f9; color: var(--text); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+  h1 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+  .sub { color: var(--soft); font-size: 16px; margin-bottom: 48px; }
+  .variant { margin-bottom: 56px; }
+  .variant-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; }
+  .variant-num {
+    background: var(--text); color: #fff; font-weight: 800; font-size: 14px;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
+  }
+  .variant-head h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; }
+  .variant-head p { color: var(--soft); font-size: 14px; }
+  .demo {
+    position: relative; background: #fff; border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden; min-height: 300px;
+  }
+  .fake-nav { display: flex; align-items: center; gap: 20px; padding: 16px 24px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--soft); }
+  .fake-logo { font-weight: 800; color: var(--text); font-size: 15px; }
+  .fake-body { padding: 32px 24px; }
+  .fake-h { font-size: 26px; font-weight: 800; letter-spacing: -0.6px; margin-bottom: 12px; }
+  .fake-p { color: var(--soft); font-size: 14px; max-width: 460px; line-height: 1.6; }
+  .fake-cards { display: flex; gap: 12px; margin-top: 24px; }
+  .fake-card { flex: 1; height: 90px; border-radius: 14px; background: linear-gradient(160deg,#dce8f7,#c9daf2); }
+  .fake-card:nth-child(2) { background: linear-gradient(160deg,#e6e4f2,#d5d2ea); }
+  .fake-card:nth-child(3) { background: linear-gradient(160deg,#ddf0e4,#c6e4d2); }
+  .pick { color: var(--soft); font-size: 14px; margin-top: 8px; }
+  .pick code { background: #eceff3; padding: 2px 8px; border-radius: 6px; font-size: 13px; }
+
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes pulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(247,201,72,.5);} 50% { opacity: .85; box-shadow: 0 0 0 6px rgba(247,201,72,0);} }
+  @keyframes slideStripe { from { background-position: 0 0; } to { background-position: 56px 0; } }
+  .tick { white-space: nowrap; overflow: hidden; }
+  .track { display: inline-block; animation: marquee 28s linear infinite; }
+
+  /* ===== 6-A «Контраст»: жёлтый топбар, чёрный тикер ===== */
+  .a-top { background: #f7c948; color: #1f1f1f; font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 24px; }
+  .a-badge { background: #1f1f1f; color: #f7c948; font-size: 10px; font-weight: 800;
+    letter-spacing: 1.5px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+  .a-tick { background: #1f1f1f; color: #f7c948; font-size: 12px; font-weight: 600; padding: 6px 0; letter-spacing: .5px; }
+
+  /* ===== 6-B «Синий неон»: графеновский синий ===== */
+  .b-top { background: #0d1524; color: #fff; font-size: 14px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 24px;
+    border-bottom: 2px solid #3f7de8; }
+  .b-badge { background: #3f7de8; color: #fff; font-size: 10px; font-weight: 800;
+    letter-spacing: 1.5px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+  .b-tick { background: #101a2e; color: #7da7d9; font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 6px 0; }
+
+  /* ===== 6-C «Пульс»: чёрный топбар, пульсирующий badge ===== */
+  .c-top { background: #1f1f1f; color: #fff; font-size: 14px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 24px; }
+  .c-badge { background: #f7c948; color: #1f1f1f; font-size: 10px; font-weight: 800;
+    letter-spacing: 1.5px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; animation: pulse 2s ease-in-out infinite; }
+  .c-tick { background: #303134; color: #c8cacd; font-size: 12px; padding: 6px 0; }
+
+  /* ===== 6-D «Полоса движения»: анимированный разделитель ===== */
+  .d-top { background: #1f1f1f; color: #fff; font-size: 14px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 24px; }
+  .d-badge { background: #f7c948; color: #1f1f1f; font-size: 10px; font-weight: 800;
+    letter-spacing: 1.5px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+  .d-stripe { height: 4px;
+    background: repeating-linear-gradient(-45deg, #f7c948 0 14px, #1f1f1f 14px 28px);
+    background-size: 56px 100%; animation: slideStripe 1.4s linear infinite; }
+  .d-tick { background: #303134; color: #c8cacd; font-size: 12px; padding: 6px 0; }
+
+  /* ===== 6-E «Светлая инверсия»: белый топбар, заметно на белом сайте за счёт рамки ===== */
+  .e-top { background: #fff; color: #1f1f1f; font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 24px;
+    border-bottom: 3px solid #f7c948; }
+  .e-badge { background: #f7c948; color: #1f1f1f; font-size: 10px; font-weight: 800;
+    letter-spacing: 1.5px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+  .e-tick { background: #1f1f1f; color: #f7c948; font-size: 12px; font-weight: 600; padding: 6px 0; }
+
+  /* ===== 6-F «Всё жёлтое»: максимум заметности, минимализм форм ===== */
+  .f-top { background: #f7c948; color: #1f1f1f; font-size: 15px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; gap: 12px; padding: 14px 24px; letter-spacing: .2px; }
+  .f-badge { background: #1f1f1f; color: #f7c948; font-size: 10px; font-weight: 800;
+    letter-spacing: 1.5px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+  .f-tick { background: #e5b93e; color: #1f1f1f; font-size: 12px; font-weight: 600; padding: 7px 0; }
+
+  .tick-text { font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Вариант 6 — шесть вариаций</h1>
+  <p class="sub">Все заметнее оригинала, но без кислоты и мигалок. Тексты везде одинаковые — выбираем только подачу. Напишите код (6-A … 6-F) — встрою на весь сайт.</p>
+
+  <!-- 6-A -->
+  <div class="variant">
+    <div class="variant-head"><span class="variant-num">A</span><h2>Контраст</h2><p>Жёлтый топбар + чёрный тикер. Заметно, но чисто.</p></div>
+    <div class="demo">
+      <div class="a-top"><span class="a-badge">Beta</span> Сайт в разработке — каталог и конфигуратор уже открыты</div>
+      <div class="a-tick tick"><span class="track tick-text">готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp; готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp;</span></div>
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+    </div>
+    <p class="pick">Код для выбора: <code>6-A</code></p>
+  </div>
+
+  <!-- 6-B -->
+  <div class="variant">
+    <div class="variant-head"><span class="variant-num">B</span><h2>Синий неон</h2><p>В цветах GrapheneOS: тёмно-синий + фирменный голубой. Техно, спокойно.</p></div>
+    <div class="demo">
+      <div class="b-top"><span class="b-badge">Beta</span> Сайт в разработке — каталог и конфигуратор уже открыты</div>
+      <div class="b-tick tick"><span class="track">STATUS: UNDER_CONSTRUCTION &nbsp;·&nbsp; CATALOG: OPEN &nbsp;·&nbsp; TON PAYMENTS: SOON &nbsp;·&nbsp; STATUS: UNDER_CONSTRUCTION &nbsp;·&nbsp; CATALOG: OPEN &nbsp;·&nbsp; TON PAYMENTS: SOON &nbsp;·&nbsp;</span></div>
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+    </div>
+    <p class="pick">Код для выбора: <code>6-B</code></p>
+  </div>
+
+  <!-- 6-C -->
+  <div class="variant">
+    <div class="variant-head"><span class="variant-num">C</span><h2>Пульс</h2><p>Чёрный топбар, жёлтый бейдж мягко пульсирует — глаз цепляется сам.</p></div>
+    <div class="demo">
+      <div class="c-top"><span class="c-badge">Beta</span> Сайт в разработке — каталог и конфигуратор уже открыты</div>
+      <div class="c-tick tick"><span class="track">готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp; готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp;</span></div>
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+    </div>
+    <p class="pick">Код для выбора: <code>6-C</code></p>
+  </div>
+
+  <!-- 6-D -->
+  <div class="variant">
+    <div class="variant-head"><span class="variant-num">D</span><h2>Полоса движения</h2><p>Топбар + живая диагональная полоса-разделитель, которая постоянно «едет».</p></div>
+    <div class="demo">
+      <div class="d-top"><span class="d-badge">Beta</span> Сайт в разработке — каталог и конфигуратор уже открыты</div>
+      <div class="d-stripe"></div>
+      <div class="d-tick tick"><span class="track">готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp; готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp;</span></div>
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+    </div>
+    <p class="pick">Код для выбора: <code>6-D</code></p>
+  </div>
+
+  <!-- 6-E -->
+  <div class="variant">
+    <div class="variant-head"><span class="variant-num">E</span><h2>Светлая инверсия</h2><p>Белый топбар с жёлтой кромкой — заметен именно на светлом сайте, не спорит с шапкой.</p></div>
+    <div class="demo">
+      <div class="e-top"><span class="e-badge">Beta</span> Сайт в разработке — каталог и конфигуратор уже открыты</div>
+      <div class="e-tick tick"><span class="track">готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp; готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp;</span></div>
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+    </div>
+    <p class="pick">Код для выбора: <code>6-E</code></p>
+  </div>
+
+  <!-- 6-F -->
+  <div class="variant">
+    <div class="variant-head"><span class="variant-num">F</span><h2>Всё жёлтое</h2><p>Максимальная заметность: весь блок жёлтый, текст крупнее. Всё ещё строго.</p></div>
+    <div class="demo">
+      <div class="f-top"><span class="f-badge">Beta</span> Сайт в разработке — каталог и конфигуратор уже открыты</div>
+      <div class="f-tick tick"><span class="track">готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp; готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp;</span></div>
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+    </div>
+    <p class="pick">Код для выбора: <code>6-F</code></p>
+  </div>
+
+</div>
+</body>
+</html>

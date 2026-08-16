@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Варианты плашки «Сайт в разработке»</title>
+<style>
+  :root {
+    --text: #1f1f1f;
+    --soft: #5f6368;
+    --border: #e3e5e8;
+    --accent: #3f7de8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Inter, 'Segoe UI', sans-serif; background: #f6f7f9; color: var(--text); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+  h1 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+  .sub { color: var(--soft); font-size: 16px; margin-bottom: 48px; }
+
+  .variant { margin-bottom: 56px; }
+  .variant-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; }
+  .variant-num {
+    background: var(--text); color: #fff; font-weight: 800; font-size: 14px;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
+  }
+  .variant-head h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; }
+  .variant-head p { color: var(--soft); font-size: 14px; }
+
+  .demo {
+    position: relative; background: #fff; border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden; min-height: 300px;
+  }
+  /* мини-макет сайта */
+  .fake-nav { display: flex; align-items: center; gap: 20px; padding: 16px 24px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--soft); }
+  .fake-logo { font-weight: 800; color: var(--text); font-size: 15px; }
+  .fake-body { padding: 32px 24px; }
+  .fake-h { font-size: 26px; font-weight: 800; letter-spacing: -0.6px; margin-bottom: 12px; }
+  .fake-p { color: var(--soft); font-size: 14px; max-width: 460px; line-height: 1.6; }
+  .fake-cards { display: flex; gap: 12px; margin-top: 24px; }
+  .fake-card { flex: 1; height: 90px; border-radius: 14px; background: linear-gradient(160deg,#dce8f7,#c9daf2); }
+  .fake-card:nth-child(2) { background: linear-gradient(160deg,#e6e4f2,#d5d2ea); }
+  .fake-card:nth-child(3) { background: linear-gradient(160deg,#ddf0e4,#c6e4d2); }
+
+  /* ===== В1: строительная лента с бегущей строкой сверху ===== */
+  .v1-tape {
+    background: repeating-linear-gradient(-45deg, #f7c948 0 18px, #1f1f1f 18px 36px);
+    padding: 3px 0;
+  }
+  .v1-inner {
+    background: #1f1f1f; color: #f7c948;
+    font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    white-space: nowrap; overflow: hidden; padding: 7px 0;
+  }
+  .v1-track { display: inline-block; animation: marquee 18s linear infinite; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ===== В2: тонкая статичная полоса сверху с закрытием ===== */
+  .v2-bar {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    background: #fff8e1; border-bottom: 1px solid #f0dfae;
+    color: #6d5b12; font-size: 13px; font-weight: 500; padding: 10px 48px; position: relative;
+  }
+  .v2-bar b { font-weight: 700; }
+  .v2-close {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    border: none; background: none; color: #6d5b12; font-size: 16px; cursor: pointer;
+    width: 28px; height: 28px; border-radius: 50%;
+  }
+  .v2-close:hover { background: rgba(0,0,0,0.06); }
+
+  /* ===== В3: биржевой тикер снизу ===== */
+  .v3-ticker {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    background: #0d1524; color: #7da7d9;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 12px; padding: 9px 0; white-space: nowrap; overflow: hidden;
+    border-top: 1px solid rgba(125,167,217,0.25);
+  }
+  .v3-track { display: inline-block; animation: marquee 24s linear infinite; }
+  .v3-dot { color: #3f7de8; margin: 0 14px; }
+
+  /* ===== В4: диагональный уголок «БЕТА» ===== */
+  .v4-ribbon {
+    position: absolute; top: 26px; left: -44px; transform: rotate(-45deg);
+    background: #d93025; color: #fff; font-size: 12px; font-weight: 800;
+    letter-spacing: 2px; padding: 7px 52px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+
+  /* ===== В5: плавающая пилюля снизу ===== */
+  .v5-pill {
+    position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(31,31,31,0.88); color: #fff; backdrop-filter: blur(8px);
+    border-radius: 30px; padding: 10px 20px; font-size: 13px; font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  }
+  .v5-dot {
+    width: 9px; height: 9px; border-radius: 50%; background: #f7c948;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.75); } }
+  .v5-pill button { border: none; background: none; color: #9aa0a6; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; }
+
+  /* ===== В6: дуэт — статичный топбар + мелкий тикер ===== */
+  .v6-top {
+    background: #1f1f1f; color: #fff; font-size: 13px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; gap: 10px; padding: 10px 24px;
+  }
+  .v6-badge {
+    background: #f7c948; color: #1f1f1f; font-size: 10px; font-weight: 800;
+    letter-spacing: 1px; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;
+  }
+  .v6-sub {
+    background: #303134; color: #9aa0a6; font-size: 11px; padding: 5px 0;
+    white-space: nowrap; overflow: hidden;
+  }
+  .v6-track { display: inline-block; animation: marquee 30s linear infinite; }
+
+  .pick { color: var(--soft); font-size: 14px; margin-top: 8px; }
+  .pick code { background: #eceff3; padding: 2px 8px; border-radius: 6px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Плашка «Сайт в разработке» — 6 вариантов</h1>
+  <p class="sub">Каждая показана поверх мини-макета сайта. Сайт остаётся полностью кликабельным — плашка только предупреждает. Напишите номер, который нравится — встрою его на все страницы.</p>
+
+  <!-- В1 -->
+  <div class="variant">
+    <div class="variant-head">
+      <span class="variant-num">1</span>
+      <h2>Строительная лента + бегущая строка</h2>
+      <p>Заметно издалека, честный вайб «идут работы». Сверху, не закрывает контент.</p>
+    </div>
+    <div class="demo">
+      <div class="v1-tape"><div class="v1-inner"><span class="v1-track">
+        Сайт в разработке &nbsp;///&nbsp; Всё можно смотреть и трогать &nbsp;///&nbsp; Заказы пока не принимаем &nbsp;///&nbsp; Сайт в разработке &nbsp;///&nbsp; Всё можно смотреть и трогать &nbsp;///&nbsp; Заказы пока не принимаем &nbsp;///&nbsp; Сайт в разработке &nbsp;///&nbsp; Всё можно смотреть и трогать &nbsp;///&nbsp; Заказы пока не принимаем &nbsp;///&nbsp;
+      </span></div></div>
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб. — установка GrapheneOS и доставка включены.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+    </div>
+    <p class="pick">Код для выбора: <code>вариант 1</code></p>
+  </div>
+
+  <!-- В2 -->
+  <div class="variant">
+    <div class="variant-head">
+      <span class="variant-num">2</span>
+      <h2>Тонкая полоса сверху с крестиком</h2>
+      <p>Спокойная, «взрослая». Пользователь может закрыть — больше не мешает.</p>
+    </div>
+    <div class="demo">
+      <div class="v2-bar"><b>Сайт в разработке.</b> Каталог и конфигуратор уже можно изучать — заказы откроем позже. <button class="v2-close">✕</button></div>
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб. — установка GrapheneOS и доставка включены.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+    </div>
+    <p class="pick">Код для выбора: <code>вариант 2</code></p>
+  </div>
+
+  <!-- В3 -->
+  <div class="variant">
+    <div class="variant-head">
+      <span class="variant-num">3</span>
+      <h2>Тёмный биржевой тикер снизу</h2>
+      <p>Техно-эстетика в духе GrapheneOS, моноширинный шрифт, всегда внизу экрана.</p>
+    </div>
+    <div class="demo">
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб. — установка GrapheneOS и доставка включены.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+      <div class="v3-ticker"><span class="v3-track">
+        STATUS: UNDER_CONSTRUCTION<span class="v3-dot">●</span>CATALOG: READABLE<span class="v3-dot">●</span>ORDERS: SOON<span class="v3-dot">●</span>STATUS: UNDER_CONSTRUCTION<span class="v3-dot">●</span>CATALOG: READABLE<span class="v3-dot">●</span>ORDERS: SOON<span class="v3-dot">●</span>
+      </span></div>
+    </div>
+    <p class="pick">Код для выбора: <code>вариант 3</code></p>
+  </div>
+
+  <!-- В4 -->
+  <div class="variant">
+    <div class="variant-head">
+      <span class="variant-num">4</span>
+      <h2>Диагональный уголок «БЕТА»</h2>
+      <p>Минимализм: маленькая ленточка в углу, почти не отвлекает.</p>
+    </div>
+    <div class="demo">
+      <div class="v4-ribbon">БЕТА</div>
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб. — установка GrapheneOS и доставка включены.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+    </div>
+    <p class="pick">Код для выбора: <code>вариант 4</code></p>
+  </div>
+
+  <!-- В5 -->
+  <div class="variant">
+    <div class="variant-head">
+      <span class="variant-num">5</span>
+      <h2>Плавающая пилюля с пульсацией</h2>
+      <p>Современно, ненавязчиво, можно закрыть. Плавает поверх контента снизу.</p>
+    </div>
+    <div class="demo">
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб. — установка GrapheneOS и доставка включены.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+      <div class="v5-pill"><span class="v5-dot"></span> Сайт в разработке — смотреть можно всё <button>✕</button></div>
+    </div>
+    <p class="pick">Код для выбора: <code>вариант 5</code></p>
+  </div>
+
+  <!-- В6 -->
+  <div class="variant">
+    <div class="variant-head">
+      <span class="variant-num">6</span>
+      <h2>Дуэт: топбар + мелкий тикер</h2>
+      <p>Сверху чёткое «в разработке», под ним тонкая бегущая строка со статусами.</p>
+    </div>
+    <div class="demo">
+      <div class="v6-top"><span class="v6-badge">Beta</span> Сайт в разработке — каталог и конфигуратор уже открыты для просмотра</div>
+      <div class="v6-sub"><span class="v6-track">
+        готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp; готовим оплату в TON &nbsp;·&nbsp; telegram-бот скоро &nbsp;·&nbsp; цены предварительные &nbsp;·&nbsp;
+      </span></div>
+      <div class="fake-nav"><span class="fake-logo">PixelShield</span> Смартфоны · Устройства · GrapheneOS · Аксессуары</div>
+      <div class="fake-body"><div class="fake-h">Pixel 10 Pro XL</div><div class="fake-p">Новая эра приватности. От 110 000 руб. — установка GrapheneOS и доставка включены.</div>
+      <div class="fake-cards"><div class="fake-card"></div><div class="fake-card"></div><div class="fake-card"></div></div></div>
+    </div>
+    <p class="pick">Код для выбора: <code>вариант 6</code></p>
+  </div>
+
+</div>
+</body>
+</html>

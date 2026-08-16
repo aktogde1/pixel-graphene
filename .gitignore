@@ -1,0 +1,15 @@
+node_modules/
+dist/
+downloads/
+tools/
+bot/
+tmp-media/
+*.py
+AUDIT.md
+ROADMAP.md
+result.json
+transcript.txt
+pixels.json
+tmp-sitewb-req-shot3.json
+clean_render.py
+tsconfig.tsbuildinfo

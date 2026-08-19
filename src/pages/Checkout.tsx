@@ -6,19 +6,18 @@ import {
 } from '../data'
 
 export default function Checkout({ config }: { config: OrderConfig }) {
-  const m = getModel(config.modelId)
-  const total = calcTotal(config)
-  const hasConfig = true // конфиг всегда есть (дефолтный)
-
-  const lines: { label: string, value: string, danger?: boolean }[] = []
-  if (config.engraving.trim()) lines.push({ label: `Гравировка «${config.engraving.trim()}»`, value: `+${fmt(ENGRAVING_PRICE)}` })
-  ACCESSORIES.filter(a => config.accessories.includes(a.id)).forEach(a =>
-    lines.push({ label: `${a.brand} ${a.name}`, value: `+${fmt(a.price)}` }))
-  HARDWARE_MODS.filter(h => config.hwMods.includes(h.id)).forEach(h =>
-    lines.push({ label: h.name, value: `+${fmt(h.price)}`, danger: true }))
-
   return (
-    <>
+    <section className="page-head">
+      <div className="container">
+        <p className="eyebrow-blue">Оформление заказа</p>
+        <h1>В разработке</h1>
+        <p className="lead">
+          Страница в разработке — функционал появится позже
+        </p>
+      </div>
+    </section>
+  )
+}
       <section className="page-head">
         <div className="container">
           <p className="eyebrow-blue">Оформление заказа</p>

@@ -51,12 +51,8 @@ export function Nav({ route }: { route: string }) {
           {link('/payment', 'Оплата и доставка')}
         </ul>
         <div className="nav-actions">
-          <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="nav-phone nav-phone-tg">
-            <Send size={15} /> Заказ и поддержка — в боте
-          </a>
-          <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="nav-tg" aria-label="Telegram-бот">
-            <Send size={18} />
-          </a>
+          <span className="nav-phone nav-phone-tg" style={{pointerEvents:'none',opacity:'0.5'}}>В разработке</span>
+          <span className="nav-tg" style={{pointerEvents:'none',opacity:'0.5'}}>В разработке</span>
           <a href="#/checkout" className="nav-cart" aria-label="Заказ"><ShoppingBag size={20} /></a>
           <button className="nav-menu-btn" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Меню"><Menu size={20} /></button>
         </div>
@@ -73,9 +69,7 @@ export function Footer() {
           <div className="footer-brand">
             <h3><ShieldCheck size={20} /> PixelShield</h3>
             <p>Google Pixel с предустановленной GrapheneOS. Приватность под ключ — от закупки и аппаратной модификации до доставки.</p>
-            <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="footer-tg">
-              <Send size={14} /> Telegram-бот для заказов
-            </a>
+            <span className="footer-tg" style={{pointerEvents:'none',opacity:'0.5'}}>В разработке</span>
           </div>
           <div className="footer-col">
             <h4>Смартфоны</h4>
@@ -92,7 +86,7 @@ export function Footer() {
           </div>
           <div className="footer-col">
             <h4>Связь</h4>
-            <a href={TELEGRAM_URL} target="_blank" rel="noreferrer">Telegram-бот</a>
+            <a href="#" style={{pointerEvents:'none',opacity:'0.5'}}>В разработке</a>
             <a href="#/terms">Условия и оферта</a>
             <a href="#/terms">Политика конфиденциальности</a>
           </div>

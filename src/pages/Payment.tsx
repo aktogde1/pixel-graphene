@@ -20,12 +20,10 @@ export default function Payment() {
       <section className="page-head">
         <div className="container">
           <p className="eyebrow-blue">Оплата и доставка</p>
-          <h1>Заказ через Telegram.<br />Оплата в TON.</h1>
-          <p className="lead">
-            Никаких форм и аккаунтов на сайте: весь заказ происходит в нашем Telegram-боте
-            <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="tg-inline"> @{TELEGRAM_BOT}</a> —
-            он принимает конфигурацию, отвечает на вопросы и выставляет счёт.
-          </p>
+<h1>В разработке</h1>
+        <p className="lead">
+          Страница в разработке — функционал появится позже
+        </p>
         </div>
       </section>
 
@@ -51,7 +49,7 @@ export default function Payment() {
       <section className="section specs-section">
         <div className="container">
           <h2>Доставка.</h2>
-          <p className="lead">По России и в другие страны — условия уточняйте в боте</p>
+          <p className="lead">Информация о доставке уточняется в разработке</p>
           <div className="pay-grid">
             {DELIVERY.map((d, i) => (
               <div className="pay-card" key={i}>
@@ -61,9 +59,9 @@ export default function Payment() {
               </div>
             ))}
           </div>
-          <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="btn-tg" style={{ marginTop: 40 }}>
-            <Send size={18} /> Открыть Telegram-бота
-          </a>
+          <a href="#" style={{pointerEvents:'none',opacity:'0.5'}} className="btn-tg" style={{ marginTop: 40 }}>
+              <Send size={18} /> В разработке
+            </a>
         </div>
       </section>
     </>

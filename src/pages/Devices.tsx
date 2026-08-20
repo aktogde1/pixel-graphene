@@ -1,5 +1,5 @@
 import { Tablet, Laptop, Router, BatteryCharging, Send, ChevronRight } from 'lucide-react'
-import { DEVICE_CATEGORIES, fmtRub, TELEGRAM_URL, type DeviceCategory } from '../data'
+import { DEVICE_CATEGORIES, fmtRub, type DeviceCategory } from '../data'
 
 const CAT_ICONS = {
   tablet: Tablet,
@@ -27,8 +27,8 @@ function CategoryBlock({ cat }: { cat: DeviceCategory }) {
               <p>{d.desc}</p>
               <div className="device-card-bottom">
                 <span className="device-price">{fmtRub(d.price)}</span>
-                <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="link-buy">
-                  Заказать в боте <ChevronRight size={15} />
+                <a href="#" style={{pointerEvents:'none',opacity:'0.5'}} className="link-buy">
+                  В разработке <ChevronRight size={15} />
                 </a>
               </div>
             </div>
@@ -60,10 +60,10 @@ export default function Devices() {
         <div className="container order-teaser-inner">
           <div>
             <h2>Не нашли нужное?</h2>
-            <p>Напишите боту — подберём и привезём под заказ: планшеты, роутеры, ноутбуки и аксессуары вне каталога.</p>
+            <p>Функционал заказа под заказ в разработке.</p>
           </div>
-          <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="btn-tg">
-            <Send size={18} /> Спросить в Telegram
+          <a href="#" style={{pointerEvents:'none',opacity:'0.5'}} className="btn-tg">
+            <Send size={18} /> В разработке
           </a>
         </div>
       </section>

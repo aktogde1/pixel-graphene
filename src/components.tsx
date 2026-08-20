@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { ShieldCheck, ShoppingBag, Menu, Send } from 'lucide-react'
-import { TELEGRAM_URL } from './data'
 
 export function navigate(to: string) {
   window.location.hash = to
 }
 
-const TICKER_ITEMS = ['готовим оплату в TON', 'telegram-бот скоро', 'цены предварительные']
+const TICKER_ITEMS = ['готовим оплату в TON', 'в разработке', 'цены предварительные']
 
 export function DevBanner() {
   const line = TICKER_ITEMS.join('  ·  ') + '  ·  '

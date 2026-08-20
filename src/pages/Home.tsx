@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import {
   Shield, Lock, Eye, Cpu, Battery, RefreshCw, ChevronDown, ChevronRight,
-  Check, X, MicOff, CameraOff, Send, Tablet, Laptop, Router, BatteryCharging
+  Check, X, MicOff, CameraOff, Tablet, Laptop, Router, BatteryCharging
 } from 'lucide-react'
 import {
   MODELS, IMG_FRONT, PILLARS, FEATURE_CARDS, COMPARE, FAQ,
-  fmtRub, TELEGRAM_URL, phoneCardImg, realImg, type PhoneModel,
+  fmtRub, phoneCardImg, realImg, type PhoneModel,
 } from '../data'
 
 /* ---- Карточка модели в каталоге ---- */
@@ -198,19 +198,6 @@ export default function Home() {
               </tbody>
             </table>
           </div>
-        </div>
-      </section>
-
-      {/* Как заказать — Telegram */}
-      <section className="order-teaser">
-        <div className="container order-teaser-inner">
-          <div>
-            <h2>Заказ и оплата — в Telegram.</h2>
-            <p>Наш бот примет конфигурацию, ответит на вопросы и выдаст реквизиты. Оплата в экосистеме TON: Toncoin, USDT (TON), Telegram Wallet — или международной картой через платёжный шлюз в боте.</p>
-          </div>
-          <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="btn-tg">
-            <Send size={18} /> Открыть Telegram-бота
-          </a>
         </div>
       </section>
 

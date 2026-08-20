@@ -1,7 +1,7 @@
 import { Send, ChevronRight, Check, MicOff, CameraOff, PenTool, Shield, Zap, Smartphone } from 'lucide-react'
 import {
-  getModel, calcTotal, fmt, fmtRub, orderDeepLink,
-  ACCESSORIES, HARDWARE_MODS, ENGRAVING_PRICE, TELEGRAM_URL,
+  getModel, calcTotal, fmt, fmtRub,
+  ACCESSORIES, HARDWARE_MODS, ENGRAVING_PRICE,
   phoneCardImg, type OrderConfig,
 } from '../data'
 

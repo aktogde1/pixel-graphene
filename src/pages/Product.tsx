@@ -6,7 +6,7 @@ import {
 import {
   MODELS, COLOR_HEX, COLOR_IMG, IMG_FRONT, IMG_FOLD, STORAGE_DELTA,
   ENGRAVING_PRICE, ENGRAVING_MAX, ACCESSORIES, HARDWARE_MODS,
-  getModel, calcTotal, fmt, fmtRub, orderDeepLink, realImg,
+  getModel, calcTotal, fmt, fmtRub, realImg,
   type OrderConfig,
 } from '../data'
 import { navigate } from '../components'
@@ -241,8 +241,8 @@ export default function Product({ id, config, setConfig }: Props) {
                 ))}
                 <li><span>GrapheneOS + настройка + доставка СДЭК</span><span>включено</span></li>
               </ul>
-              <a href={orderDeepLink(config)} target="_blank" rel="noreferrer" className="btn-tg btn-tg-full">
-                <Send size={18} /> Оформить в Telegram-боте
+              <a href="#" style={{pointerEvents:'none',opacity:'0.5'}} className="btn-tg btn-tg-full">
+                <Send size={18} /> В разработке
               </a>
               <a href="#/checkout" className="btn-buy-alt">Оплата и доставка</a>
               <div className="price-badges">

@@ -309,22 +309,21 @@ export const OSS_APPS = [
   { cat: 'Клавиатура', apps: 'HeliBoard', desc: 'Без отправки набранного текста на чужие серверы — в отличие от стоковых.' },
 ]
 
-/* ---- Telegram-бот и оплата ---- */
-export const TELEGRAM_BOT = 'PixelShieldBot'
-export const TELEGRAM_URL = `https://t.me/${TELEGRAM_BOT}`
+/* ---- Telegram-бот и оплата (отключено, в разработке) ---- */
+// export const TELEGRAM_BOT = 'PixelShieldBot'
+// export const TELEGRAM_URL = `https://t.me/${TELEGRAM_BOT}`
 
-export function orderDeepLink(cfg: OrderConfig): string {
-  // start-параметр бота: до 64 символов, только [a-zA-Z0-9_-]
-  const code = [
-    cfg.modelId.replace('pixel-', 'p'),
-    cfg.color.slice(0, 3).toLowerCase(),
-    cfg.storage.replace('GB', 'g').replace('TB', 't'),
-    cfg.sim,
-    cfg.accessories.join('.') || 'noacc',
-    cfg.hwMods.join('.') || 'std',
-  ].join('_').replace(/[^a-zA-Z0-9_.-]/g, '')
-  return `${TELEGRAM_URL}?start=${code.slice(0, 64)}`
-}
+// export function orderDeepLink(cfg: OrderConfig): string {
+//   const code = [
+//     cfg.modelId.replace('pixel-', 'p'),
+//     cfg.color.slice(0, 3).toLowerCase(),
+//     cfg.storage.replace('GB', 'g').replace('TB', 't'),
+//     cfg.sim,
+//     cfg.accessories.join('.') || 'noacc',
+//     cfg.hwMods.join('.') || 'std',
+//   ].join('_').replace(/[^a-zA-Z0-9_.-]/g, '')
+//   return `${TELEGRAM_URL}?start=${code.slice(0, 64)}`
+// }
 
 /* ---- Контент ---- */
 export const PILLARS = [

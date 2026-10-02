@@ -598,9 +598,18 @@ img { max-width: 100%; display: block; }
   font-size: clamp(28px, 3.4vw, 40px);
   font-weight: 800;
   letter-spacing: -1px;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   text-align: center;
 }
+.fc-intro {
+  max-width: 720px;
+  margin: 0 auto 40px;
+  text-align: center;
+  font-size: 15.5px;
+  color: var(--text-soft);
+  line-height: 1.65;
+}
+.fc-intro strong { color: var(--text); }
 .fc-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -619,6 +628,92 @@ img { max-width: 100%; display: block; }
 .g-purple { background: linear-gradient(160deg, #e6e4f2, #d5d2ea); }
 .g-mint { background: linear-gradient(160deg, #ddf0e4, #c6e4d2); }
 .g-peach { background: linear-gradient(160deg, #f7e8dd, #f0d6c2); }
+
+/* Что вы покупаете у PixelReady */
+.buy-section { padding-bottom: 0; }
+.buy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  text-align: left;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+.buy-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.buy-card .pillar-icon { margin: 0 0 18px; }
+.buy-card h3 {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  margin-bottom: 12px;
+}
+.buy-card p {
+  font-size: 14.5px;
+  color: var(--text-soft);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+.buy-card .btn-tg { margin-top: auto; }
+.buy-card .btn-outline-dark { margin-top: auto; }
+
+/* Отзывы с Авито */
+.reviews-section { background: var(--bg-soft); }
+.reviews-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 1040px;
+  margin: 0 auto 28px;
+  text-align: left;
+}
+.review-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 32px 30px;
+  display: flex;
+  flex-direction: column;
+}
+.review-card svg { color: var(--accent); margin-bottom: 16px; }
+.review-text {
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.review-source {
+  margin-top: auto;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.reviews-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.reviews-link:hover { color: var(--accent-hover); }
+.reviews-cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 36px;
+}
+.reviews-cta .btn-outline-dark { margin-top: 0; }
 
 /* Витрина с фронтальным рендером */
 .showcase {
@@ -740,6 +835,7 @@ img { max-width: 100%; display: block; }
   max-width: 900px;
   margin: 48px auto 0;
   text-align: left;
+  overflow-x: auto;
 }
 .specs-table { width: 100%; border-collapse: collapse; font-size: 15px; }
 .specs-table th, .specs-table td {
@@ -852,6 +948,12 @@ img { max-width: 100%; display: block; }
   color: var(--text-muted);
   text-align: center;
 }
+.footer-indep {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-soft);
+  margin-bottom: 12px;
+}
 
 /* ============================ RESPONSIVE ============================ */
 @media (max-width: 1200px) {
@@ -886,6 +988,8 @@ img { max-width: 100%; display: block; }
   .showcase-inner { grid-template-columns: 1fr; text-align: center; }
   .showcase-text p { margin-left: auto; margin-right: auto; }
   .hw-grid { grid-template-columns: 1fr; }
+  .buy-grid { grid-template-columns: 1fr; max-width: 640px; }
+  .reviews-grid { grid-template-columns: 1fr; max-width: 640px; }
 }
 
 @media (max-width: 720px) {
@@ -896,6 +1000,9 @@ img { max-width: 100%; display: block; }
   .pillars { grid-template-columns: repeat(2, 1fr); }
   .fc-grid { grid-template-columns: 1fr; }
   .section { padding: 64px 0; }
+  .buy-card, .review-card { padding: 26px 22px; }
+  .reviews-cta { flex-direction: column; }
+  .reviews-cta .btn-tg, .reviews-cta .btn-outline-dark { width: 100%; max-width: 340px; justify-content: center; }
   .product-page { padding: 32px 0 56px; }
   .product-stage { min-height: 360px; }
   .product-img { max-height: 320px; }

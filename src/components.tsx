@@ -100,6 +100,7 @@ export function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
+          <p className="footer-indep">Не связано с Google или проектом GrapheneOS.</p>
           © 2026 PixelReady. GrapheneOS — открытая операционная система. Google Pixel — товарный знак Google LLC.
         </div>
       </div>

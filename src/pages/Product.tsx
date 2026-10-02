@@ -71,7 +71,7 @@ export default function Product({ id, config, setConfig }: Props) {
     { label: 'Аккумулятор', value: m.battery },
     ...(m.special ? [{ label: 'Особенности', value: m.special }] : []),
     { label: 'Защита', value: 'IP68, алюминий аэрокосмического класса' },
-    { label: 'ОС', value: 'GrapheneOS: verified boot, sandboxed Google Play, отключённая телеметрия, 7+ лет обновлений' },
+    { label: 'ОС', value: 'GrapheneOS: verified boot, sandboxed Google Play, отключённая телеметрия. Обновления — 7 лет с выпуска модели (10-я серия)' },
   ] : []
 
   if (!m) return <ModelNotFound />

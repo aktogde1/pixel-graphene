@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import {
   Shield, Lock, Eye, Cpu, Battery, RefreshCw, ChevronDown, ChevronRight,
-  Check, X,
+  Check, X, PackageCheck, Smartphone, Send, MessageCircle, Quote,
 } from 'lucide-react'
 import {
-  MODELS, IMG_FRONT, PILLARS, FEATURE_CARDS, COMPARE, FAQ,
+  MODELS, IMG_FRONT, PILLARS, FEATURE_CARDS, COMPARE, FAQ, REVIEWS,
+  TELEGRAM_BOT_URL, TELEGRAM_CONTACT_URL, AVITO_PROFILE_URL,
   fmtRub, minTotal, phoneCardImg, realImg, type PhoneModel,
 } from '../data'
 
@@ -59,14 +60,52 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Что вы покупаете у PixelReady */}
+      <section className="section buy-section">
+        <div className="container">
+          <p className="eyebrow-blue">Суть предложения</p>
+          <h2>Что вы покупаете у PixelReady.</h2>
+          <p className="lead">
+            GrapheneOS — бесплатная открытая система. Вы платите за подбор и выкуп телефона,
+            установку, проверку устройства и согласованный объём помощи с настройкой.
+          </p>
+          <div className="buy-grid">
+            <div className="buy-card">
+              <div className="pillar-icon"><PackageCheck size={24} strokeWidth={1.5} /></div>
+              <h3>Готовый новый Pixel с GrapheneOS</h3>
+              <p>
+                Выбираете аппарат и конфигурацию в каталоге, оформляете заказ через @PixelReadyBot.
+                Телефон новый, под заказ: конфигурацию, наличие у поставщика, итоговую стоимость
+                и срок мы согласовываем до оплаты.
+              </p>
+              <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn-tg">
+                <Send size={17} /> Заказать в Telegram
+              </a>
+            </div>
+            <div className="buy-card">
+              <div className="pillar-icon"><Smartphone size={24} strokeWidth={1.5} /></div>
+              <h3>GrapheneOS на ваш собственный Pixel</h3>
+              <p>
+                Уже есть подходящий Pixel? Обсудите с Леонидом возможность установки —
+                в том числе удалённой. Поддерживаемость конкретной модели и разблокировку
+                загрузчика проверяем заранее, до каких-либо договорённостей.
+              </p>
+              <a href={TELEGRAM_CONTACT_URL} target="_blank" rel="noopener noreferrer" className="btn-outline-dark">
+                <MessageCircle size={17} /> Задать вопрос
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Зачем GrapheneOS — тизер */}
       <section className="section">
         <div className="container">
           <p className="eyebrow-blue">Операционная система</p>
           <h2>Невероятная камера.<br />Беспрецедентная безопасность.</h2>
           <p className="lead">
-            Всё, что есть в Pixel, плюс защита от слежки на уровне операционной системы.
-            Мы устанавливаем GrapheneOS — открытую ОС, которой доверяют журналисты, активисты и спецслужбы.
+            Всё, что есть в Pixel, плюс контроль над данными на уровне операционной системы.
+            Мы устанавливаем GrapheneOS — открытую ОС, код которой может проверить каждый.
           </p>
           <div className="pillars">
             {PILLARS.map((p, i) => {
@@ -87,6 +126,12 @@ export default function Home() {
       <section className="feature-cards-section">
         <div className="container">
           <h2 className="fc-title">Что даёт GrapheneOS.</h2>
+          <p className="fc-intro">
+            <strong>Почему Pixel + GrapheneOS:</strong> дополнительные защиты системы работают
+            на аппаратной безопасности Pixel — чип Titan M2, проверенная загрузка, обновления
+            7 лет с выпуска модели. Современные телефоны и так имеют встроенные защиты;
+            здесь к ним добавляется открытая система, чей код можно проверить.
+          </p>
           <div className="fc-grid">
             {FEATURE_CARDS.map((c, i) => (
               <div className={`fc-card ${c.bg}`} key={i}>
@@ -107,7 +152,7 @@ export default function Home() {
           <div className="showcase-text">
             <h2>Защищает вас<br />и ваши данные.</h2>
             <p>GrapheneOS добавляет несколько слоёв защиты поверх стандартного Android: hardened memory allocator, network permissions, sensors permissions, exec-spawning, auto-reboot, PIN scrambling.</p>
-            <p>Каждое приложение спрашивает разрешение только тогда, когда это нужно. Google сервисы живут в песочнице и не видят другие приложения.</p>
+            <p>Каждое приложение спрашивает разрешение только тогда, когда это нужно. Google-сервисы работают в песочнице как обычные приложения — без системных привилегий и в рамках выданных разрешений.</p>
             <a href="#/grapheneos" className="btn-primary-dark">Узнать больше о GrapheneOS</a>
           </div>
         </div>
@@ -117,7 +162,12 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <h2>GrapheneOS vs Google Android.</h2>
-          <p className="lead">Что меняется, когда вы переходите на Pixel с GrapheneOS</p>
+          <p className="lead">
+            Сравнение со стандартной системой Pixel. Базовые защиты аппарата есть в обеих:
+            verified boot, изоляция приложений, шифрование. Разница — в приватности
+            на уровне системы. Срок поддержки безопасности определяется производителем
+            и у 10-й серии одинаков: 7 лет с выпуска модели.
+          </p>
           <div className="specs-table-wrap">
             <table className="specs-table">
               <thead>
@@ -133,6 +183,35 @@ export default function Home() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Отзывы */}
+      <section className="section reviews-section">
+        <div className="container">
+          <p className="eyebrow-blue">Отзывы</p>
+          <h2>Что говорят покупатели.</h2>
+          <p className="lead">Реальные отрывки из отзывов на Авито — без редактуры текста</p>
+          <div className="reviews-grid">
+            {REVIEWS.map((r, i) => (
+              <div className="review-card" key={i}>
+                <Quote size={22} strokeWidth={1.5} />
+                <p className="review-text">{r.text}</p>
+                <span className="review-source">{r.source}</span>
+              </div>
+            ))}
+          </div>
+          <a href={AVITO_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="reviews-link">
+            Все отзывы — профиль продавца на Авито <ChevronRight size={16} />
+          </a>
+          <div className="reviews-cta">
+            <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn-tg">
+              <Send size={17} /> Заказать в Telegram
+            </a>
+            <a href={TELEGRAM_CONTACT_URL} target="_blank" rel="noopener noreferrer" className="btn-outline-dark">
+              <MessageCircle size={17} /> Задать вопрос
+            </a>
           </div>
         </div>
       </section>

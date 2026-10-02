@@ -4,8 +4,6 @@ import Home from './pages/Home'
 import Phones from './pages/Phones'
 import Product from './pages/Product'
 import Graphene from './pages/Graphene'
-import Accessories from './pages/Accessories'
-import Devices from './pages/Devices'
 import Payment from './pages/Payment'
 import Checkout from './pages/Checkout'
 import Terms from './pages/Terms'
@@ -34,13 +32,13 @@ export default function App() {
   let page: React.ReactNode
   switch (route) {
     case '/phones': page = <Phones />; break
-    case '/phone': page = <Product id={param || 'pixel-10-pro'} config={config} setConfig={setConfig} />; break
+    case '/phone': page = <Product id={param || ''} config={config} setConfig={setConfig} />; break
     case '/grapheneos': page = <Graphene />; break
-    case '/devices': page = <Devices />; break
-    case '/accessories': page = <Accessories />; break
     case '/payment': page = <Payment />; break
     case '/checkout': page = <Checkout config={config} />; break
     case '/terms': page = <Terms />; break
+    // Старые адреса удалённых разделов (/devices, /accessories) и любые
+    // неизвестные маршруты ведут на актуальную витрину.
     default: page = <Home />
   }
 

@@ -1,13 +1,21 @@
 /* ============================ ДАННЫЕ МАГАЗИНА ============================ */
 
+/* Каналы связи */
+export const TELEGRAM_BOT_URL = 'https://t.me/PixelReadyBot'
+export const TELEGRAM_CONTACT_URL = 'https://t.me/aktogde1'
+
+/* Подготовка: подбор/выкуп, установка GrapheneOS, организация доставки,
+   консультация по настройке. Утверждено владельцем 2026-10-02. */
+export const PREP_FEE = 25000
+
 export interface PhoneModel {
   id: string
   name: string
   series: string
   colors: string[]
   storage: string[]
-  purchase: number
-  markup: number
+  baseStorage: string
+  sims: SimVariant[]
   display: string
   chip: string
   ram: string
@@ -21,11 +29,28 @@ export interface PhoneModel {
   glass?: string
 }
 
+export type SimVariant = 'nano' | 'esim'
+
+export const SIM_OPTIONS: Record<SimVariant, { title: string, sub: string }> = {
+  nano: { title: 'nano-SIM + eSIM', sub: 'Физическая SIM и eSIM по QR-коду' },
+  esim: { title: 'eSIM (US-версия)', sub: 'Только eSIM, без слота nano-SIM' },
+}
+
+/* Каталог согласован с ботом: только 10-я серия. Обычного Pixel 10 в нём нет. */
 export const MODELS: PhoneModel[] = [
   {
+    id: 'pixel-10-pro', name: 'Pixel 10 Pro', series: '10 Pro',
+    colors: ['Obsidian'], storage: ['128GB', '256GB', '512GB', '1TB'], baseStorage: '128GB',
+    sims: ['nano', 'esim'],
+    display: '6.3" Super Actua LTPO OLED, 1-120 Гц, 3000 нит', chip: 'Google Tensor G5 (3 нм)', ram: '16 GB',
+    camera: '50 МП + 48 МП сверхширокая + 48 МП 5x теле', frontCamera: '42 МП, автофокус',
+    battery: '4870 мАч, 24+ часов', special: 'Зум до 100x',
+    tagline: 'Профессиональная защита.', gradient: 'grad-gray',
+  },
+  {
     id: 'pixel-10-pro-xl', name: 'Pixel 10 Pro XL', series: '10 Pro XL',
-    colors: ['Moonstone', 'Jade', 'Porcelain', 'Obsidian'], storage: ['256GB', '512GB', '1TB'],
-    purchase: 80000, markup: 30000,
+    colors: ['Obsidian'], storage: ['256GB', '512GB', '1TB'], baseStorage: '256GB',
+    sims: ['nano', 'esim'],
     display: '6.8" Super Actua LTPO OLED, 1-120 Гц, 3000 нит', chip: 'Google Tensor G5 (3 нм)', ram: '16 GB',
     camera: '50 МП + 48 МП сверхширокая + 48 МП 5x теле', frontCamera: '42 МП, автофокус',
     battery: '5200 мАч, 24+ часов', special: 'Зум до 100x, видео 8K',
@@ -33,95 +58,65 @@ export const MODELS: PhoneModel[] = [
   },
   {
     id: 'pixel-10-pro-fold', name: 'Pixel 10 Pro Fold', series: '10 Pro Fold',
-    colors: ['Moonstone', 'Jade'], storage: ['256GB', '512GB', '1TB'],
-    purchase: 120000, markup: 30000,
+    colors: ['Moonstone'], storage: ['256GB', '512GB', '1TB'], baseStorage: '256GB',
+    sims: ['nano'],
     display: '8" внутренний + 6.4" внешний LTPO OLED, 1-120 Гц, 3000 нит', chip: 'Google Tensor G5 (3 нм)', ram: '16 GB',
     camera: '48 МП + 10.5 МП сверхширокая + 10.8 МП 5x теле', frontCamera: '10 МП (внешний экран) + 10 МП (внутренний)',
     battery: '5015 мАч, 24+ часов', special: 'IP68 — первая полная защита среди складных Pixel',
     tagline: 'Раскройте неординарность.', gradient: 'grad-purple', fold: true,
   },
   {
-    id: 'pixel-10-pro', name: 'Pixel 10 Pro', series: '10 Pro',
-    colors: ['Moonstone', 'Jade', 'Porcelain', 'Obsidian'], storage: ['128GB', '256GB', '512GB', '1TB'],
-    purchase: 70000, markup: 30000,
-    display: '6.3" Super Actua LTPO OLED, 1-120 Гц, 3000 нит', chip: 'Google Tensor G5 (3 нм)', ram: '16 GB',
-    camera: '50 МП + 48 МП сверхширокая + 48 МП 5x теле', frontCamera: '42 МП, автофокус',
-    battery: '4870 мАч, 24+ часов', special: 'Зум до 100x',
-    tagline: 'Профессиональная защита.', gradient: 'grad-gray',
-  },
-  {
-    id: 'pixel-10', name: 'Pixel 10', series: '10',
-    colors: ['Obsidian', 'Indigo', 'Frost', 'Lemongrass'], storage: ['128GB', '256GB'],
-    purchase: 52000, markup: 30000,
-    display: '6.3" Actua OLED, 60-120 Гц, 3000 нит', chip: 'Google Tensor G5 (3 нм)', ram: '12 GB',
-    camera: '48 МП + 13 МП сверхширокая + 10.8 МП 5x теле', frontCamera: '10.5 МП',
-    battery: '4970 мАч, 24+ часов', special: 'Впервые телеобъектив в базовом Pixel',
-    tagline: 'Приватность для всех.', gradient: 'grad-mint',
-  },
-  {
     id: 'pixel-10a', name: 'Pixel 10a', series: '10a',
-    colors: ['Obsidian', 'Berry', 'Fog', 'Lavender'], storage: ['128GB', '256GB'],
-    purchase: 38000, markup: 30000,
+    colors: ['Obsidian'], storage: ['128GB', '256GB'], baseStorage: '128GB',
+    sims: ['nano'],
     display: '6.3" Actua pOLED, 60-120 Гц, 3000 нит', chip: 'Google Tensor G4', ram: '8 GB',
     camera: '48 МП + 13 МП сверхширокая', frontCamera: '13 МП',
     battery: '5100 мАч, 24+ часов', special: 'Полностью плоский корпус без выступа камеры',
     tagline: 'Доступная безопасность.', gradient: 'grad-peach', glass: 'Gorilla Glass 7i',
   },
-  {
-    id: 'pixel-9-pro', name: 'Pixel 9 Pro', series: '9 Pro',
-    colors: ['Obsidian', 'Porcelain', 'Hazel', 'Rose'], storage: ['128GB', '256GB', '512GB', '1TB'],
-    purchase: 75000, markup: 30000,
-    display: '6.3" Super Actua LTPO OLED, 1-120 Гц', chip: 'Google Tensor G4', ram: '16 GB',
-    camera: '50 МП + 48 МП + 48 МП 5x теле', frontCamera: '42 МП',
-    battery: '4700 мАч, 24+ часов', special: '5x зум',
-    tagline: 'Проверенная классика Pro.', gradient: 'grad-blue',
-  },
-  {
-    id: 'pixel-9-pro-xl', name: 'Pixel 9 Pro XL', series: '9 Pro XL',
-    colors: ['Obsidian', 'Porcelain', 'Hazel', 'Rose'], storage: ['256GB', '512GB', '1TB'],
-    purchase: 85000, markup: 30000,
-    display: '6.8" Super Actua LTPO OLED, 1-120 Гц', chip: 'Google Tensor G4', ram: '16 GB',
-    camera: '50 МП + 48 МП + 48 МП 5x теле', frontCamera: '42 МП',
-    battery: '5060 мАч, 24+ часов', special: '5x зум',
-    tagline: 'Большой и надёжный.', gradient: 'grad-purple',
-  },
-  {
-    id: 'pixel-9', name: 'Pixel 9', series: '9',
-    colors: ['Obsidian', 'Wintergreen', 'Porcelain', 'Peony'], storage: ['128GB', '256GB'],
-    purchase: 55000, markup: 30000,
-    display: '6.3" Actua OLED, 60-120 Гц', chip: 'Google Tensor G4', ram: '12 GB',
-    camera: '50 МП + 48 МП сверхширокая', frontCamera: '10.5 МП',
-    battery: '4700 мАч, 24+ часов',
-    tagline: 'Баланс цены и защиты.', gradient: 'grad-mint',
-  },
-  {
-    id: 'pixel-9a', name: 'Pixel 9a', series: '9a',
-    colors: ['Obsidian', 'Porcelain', 'Peony', 'Iris'], storage: ['128GB', '256GB'],
-    purchase: 45000, markup: 30000,
-    display: '6.3" Actua OLED, 60-120 Гц', chip: 'Google Tensor G4', ram: '8 GB',
-    camera: '48 МП + 13 МП', frontCamera: '13 МП',
-    battery: '5100 мАч, 24+ часов',
-    tagline: 'Вход в мир приватности.', gradient: 'grad-peach', glass: 'Gorilla Glass 3',
-  },
 ]
 
+/* Утверждённая таблица цен: закупка устройства по модели и памяти.
+   Итог для покупателя = цена устройства + PREP_FEE. Цены обновляются вручную. */
+export const PRICE_TABLE: Record<string, Record<string, number>> = {
+  'pixel-10-pro': { '128GB': 70000, '256GB': 88000, '512GB': 99000, '1TB': 110000 },
+  'pixel-10-pro-xl': { '256GB': 78000, '512GB': 102000, '1TB': 120000 },
+  'pixel-10-pro-fold': { '256GB': 118000, '512GB': 133000, '1TB': 155000 },
+  'pixel-10a': { '128GB': 42000, '256GB': 48000 },
+}
+
+export function devicePrice(modelId: string, storage: string): number {
+  return PRICE_TABLE[modelId]?.[storage] ?? 0
+}
+
+/* Разница к базовой памяти — только из таблицы, у моделей она разная.
+   Базовая память: Pro/10a — 128 ГБ, XL/Fold — 256 ГБ. */
+export function storageDelta(modelId: string, storage: string): number {
+  const t = PRICE_TABLE[modelId]
+  if (!t) return 0
+  const base = PRICE_TABLE[modelId][MODELS.find(m => m.id === modelId)?.baseStorage || storage]
+  return (t[storage] ?? 0) - (base ?? 0)
+}
+
+export function calcTotal(cfg: OrderConfig): number {
+  return devicePrice(cfg.modelId, cfg.storage) + PREP_FEE
+}
+
+/* Стартовая цена модели для карточек: минимальная конфигурация + подготовка */
+export function minTotal(modelId: string): number {
+  const t = PRICE_TABLE[modelId]
+  if (!t) return 0
+  return Math.min(...Object.values(t)) + PREP_FEE
+}
+
 export const COLOR_HEX: Record<string, string> = {
-  Obsidian: '#3c4043', Porcelain: '#efece6', Pink: '#f5c2d4', Wintergreen: '#b5d9c3',
-  Peony: '#f0c9cf', Hazel: '#cdb99a', Rose: '#eec2c2', Jade: '#a8c9b4',
-  Moonstone: '#c3d2e4', Indigo: '#4a4e8f', Frost: '#c3cfeb', Lemongrass: '#dcecae',
-  Berry: '#dd8fa0', Fog: '#d7d9d2', Lavender: '#d5c6e8', Iris: '#c9c3e0',
+  Obsidian: '#3c4043',
+  Moonstone: '#c3d2e4',
 }
 
 export const COLOR_IMG: Record<string, string> = {
   Obsidian: '/images/gen/pixel-back-obsidian.webp',
-  Porcelain: '/images/gen/pixel-back-porcelain.webp',
   Moonstone: '/images/gen/pixel-back-moonstone.webp',
-  Jade: '/images/gen/pixel-back-jade.webp',
-  Pink: '/images/gen/pixel-back-pink.webp',
-  Peony: '/images/gen/pixel-back-peony.webp',
-  Rose: '/images/gen/pixel-back-rose.webp',
-  Hazel: '/images/gen/pixel-back-hazel.webp',
-  Wintergreen: '/images/gen/pixel-back-wintergreen.webp',
 }
 
 export const IMG_FRONT = '/images/gen/pixel-front.webp'
@@ -129,19 +124,15 @@ export const IMG_FOLD = '/images/gen/pixel-fold.webp'
 
 /* ---- Реальные рендеры устройств (официальные, public/images/real) ---- */
 const REAL_COLORS: Record<string, string[]> = {
-  'pixel-10-pro-xl': ['Moonstone', 'Jade', 'Porcelain', 'Obsidian'],
-  'pixel-10-pro-fold': ['Moonstone', 'Jade'],
-  'pixel-10-pro': ['Moonstone', 'Jade', 'Porcelain', 'Obsidian'],
-  'pixel-10': ['Obsidian', 'Indigo', 'Frost', 'Lemongrass'],
-  'pixel-9-pro': ['Obsidian', 'Porcelain', 'Hazel', 'Rose'],
-  'pixel-9-pro-xl': ['Obsidian', 'Porcelain', 'Hazel', 'Rose'],
-  'pixel-9': ['Obsidian', 'Wintergreen', 'Porcelain', 'Peony'],
+  'pixel-10-pro': ['Obsidian'],
+  'pixel-10-pro-xl': ['Obsidian'],
+  'pixel-10-pro-fold': ['Moonstone'],
 }
 
 /**
  * Реальный рендер модели в цвете; view: 'card' — фронт+зад (карточки),
  * 'back' — крупный план задней панели. Возвращает null, если рендера нет
- * (pixel-9a, pixel-10a — пока остаются на визуализациях).
+ * (pixel-10a — пока остаётся на визуализации).
  */
 export function realImg(modelId: string, color: string, view: 'card' | 'back' = 'card'): string | null {
   if (!REAL_COLORS[modelId]?.includes(color)) return null
@@ -156,144 +147,27 @@ export function phoneCardImg(m: PhoneModel, color?: string): string {
     || IMG_FRONT
 }
 
-export const STORAGE_DELTA: Record<string, number> = {
-  '128GB': 0, '256GB': 9000, '512GB': 18000, '1TB': 32000,
-}
-
-export const ENGRAVING_PRICE = 1990
-export const ENGRAVING_MAX = 20
-
-/* ---- Премиальные аксессуары ---- */
-export interface Accessory {
-  id: string
-  brand: string
-  name: string
-  price: number
-  desc: string
-  tag?: string
-}
-
-export const ACCESSORIES: Accessory[] = [
-  { id: 'pitaka', brand: 'Pitaka', name: 'MagEZ Case', price: 7990, tag: 'Арамид', desc: 'Ультратонкий (0.95 мм) чехол из арамидного волокна 600D. MagSafe-совместимые магниты, нулевая толщина в кармане.' },
-  { id: 'spigen', brand: 'Spigen', name: 'Tough Armor', price: 5490, tag: 'Хит продаж', desc: 'Двухслойная защита стандарта MIL-STD 810G, встроенная подставка, усиленные углы Air Cushion.' },
-  { id: 'uag', brand: 'UAG', name: 'Monarch', price: 8990, tag: 'Максимум защиты', desc: 'Пять слоёв защиты: кевлар, кожа, поликарбонат. Тест падения с 7.6 метра.' },
-  { id: 'bellroy', brand: 'Bellroy', name: 'Leather Case', price: 8490, desc: 'Натуральная кожа премиум-класса, тонкий профиль, мягкая подкладка из микрофибры.' },
-  { id: 'faraday', brand: 'Faraday', name: 'Экранирующий чехол', price: 9900, tag: 'Приватность', desc: 'Полная блокировка сотовой сети, Wi-Fi, Bluetooth, GPS и NFC. Телефон «исчезает» из эфира, пока внутри.' },
-  { id: 'glass', brand: 'Privacy', name: 'Приватность-стекло', price: 2990, desc: 'Закалённое стекло 9H с фильтром: экран виден только вам, под углом от 30° — чёрный.' },
-]
-
-export const HARDWARE_MODS = [
-  {
-    id: 'mics', name: 'Без микрофонов и датчиков движения', price: 14900,
-    desc: 'Физическое удаление всех микрофонов, акселерометра и гироскопа — датчики движения могут работать как микрофоны. Окружение невозможно записать. Звонки — через внешнюю гарнитуру.',
-  },
-  {
-    id: 'cameras', name: 'Без камер', price: 11900,
-    desc: 'Физическое удаление фронтальной и основных камер. Для режимных объектов, где фототехника запрещена.',
-  },
-]
-
 /* ---- Конфигурация заказа ---- */
 export interface OrderConfig {
   modelId: string
   color: string
   storage: string
-  sim: 'esim' | 'nano'
-  engraving: string
-  accessories: string[]
-  hwMods: string[]
+  sim: SimVariant
 }
 
 export const DEFAULT_CONFIG: OrderConfig = {
   modelId: 'pixel-10-pro',
-  color: 'Moonstone',
-  storage: '256GB',
-  sim: 'esim',
-  engraving: '',
-  accessories: [],
-  hwMods: [],
+  color: 'Obsidian',
+  storage: '128GB',
+  sim: 'nano',
 }
 
-export function getModel(id: string): PhoneModel {
-  return MODELS.find(m => m.id === id) || MODELS[0]
-}
-
-export function calcTotal(cfg: OrderConfig): number {
-  const m = getModel(cfg.modelId)
-  const storageDelta = STORAGE_DELTA[cfg.storage] || 0
-  const acc = ACCESSORIES.filter(a => cfg.accessories.includes(a.id)).reduce((s, a) => s + a.price, 0)
-  const hw = HARDWARE_MODS.filter(h => cfg.hwMods.includes(h.id)).reduce((s, h) => s + h.price, 0)
-  const engr = cfg.engraving.trim() ? ENGRAVING_PRICE : 0
-  return m.purchase + m.markup + storageDelta + acc + hw + engr
+export function getModel(id: string): PhoneModel | undefined {
+  return MODELS.find(m => m.id === id)
 }
 
 export const fmt = (n: number) => n.toLocaleString('ru') + ' ₽'
 export const fmtRub = (n: number) => n.toLocaleString('ru') + ' руб.'
-
-/* ---- Другие устройства: планшеты, ноутбуки, роутеры, питание ---- */
-export interface Device {
-  id: string
-  name: string
-  price: number
-  desc: string
-  note?: string
-}
-
-export interface DeviceCategory {
-  id: string
-  name: string
-  icon: 'tablet' | 'laptop' | 'router' | 'power'
-  headline: string
-  text: string
-  items: Device[]
-}
-
-export const DEVICE_CATEGORIES: DeviceCategory[] = [
-  {
-    id: 'tablets',
-    name: 'Планшеты',
-    icon: 'tablet',
-    headline: 'Pixel Tablet с GrapheneOS — в том числе для ребёнка',
-    text: 'Ребёнок с обычным планшетом начинает копить цифровой след с первого касания: рекламный профиль формируется раньше школьного дневника. На GrapheneOS профиль ребёнка полностью изолирован, нет аккаунта Google, нет сбора данных — планшет просто показывает мультики и учебные приложения.',
-    items: [
-      { id: 'tablet-128', name: 'Pixel Tablet 128GB + GrapheneOS', price: 68000, desc: '10.95" LCD 60 Гц, Tensor G2, изолированный детский профиль, зарядная док-станция в комплекте.' },
-      { id: 'tablet-256', name: 'Pixel Tablet 256GB + GrapheneOS', price: 78000, desc: 'То же, с запасом памяти под офлайн-контент и учебные материалы.' },
-    ],
-  },
-  {
-    id: 'laptops',
-    name: 'Ноутбуки',
-    icon: 'laptop',
-    headline: 'ThinkPad с приватным Linux — продолжение философии',
-    text: 'Телефон защищён, а ноутбук с Windows 11 отправляет телеметрию пачками? Мы готовим Lenovo ThinkPad — машины с лучшей ремонтопригодностью и поддержкой Linux — с настроенной Fedora или Qubes OS, полнодисковым шифрованием и отключённым Intel ME где возможно.',
-    items: [
-      { id: 'thinkpad-t14', name: 'ThinkPad T14 + Fedora Workstation', price: 95000, desc: 'Ryzen 7 Pro / 32GB / 1TB, LUKS-шифрование, настроенный файрвол, LibreOffice и Signal Desktop из коробки.' },
-      { id: 'thinkpad-x1', name: 'ThinkPad X1 Carbon + Qubes OS', price: 145000, desc: 'Изоляция через виртуализацию: работа, банк и личное — в отдельных qubes. Уровень «паранойя+».' },
-    ],
-  },
-  {
-    id: 'routers',
-    name: 'LTE-роутеры',
-    icon: 'router',
-    headline: 'SIM-карта живёт в роутере, а не в телефоне',
-    text: 'Оператор сотовой сети видит IMEI вашего телефона и вышки, к которым он подключён. Решение: SIM в LTE-роутере с OpenWrt и VPN на уровне роутера, а Pixel подключается по Wi-Fi — оператор не знает ни модель телефона, ни ваш трафик.',
-    items: [
-      { id: 'glinet-mudi', name: 'GL.iNet Mudi (E750)', price: 16900, desc: 'Портативный 4G-роутер на OpenWrt: WireGuard/Tor на борту, батарея на 8 часов, экран состояния.' },
-      { id: 'glinet-puli', name: 'GL.iNet Puli (M1000)', price: 18900, desc: '4G+ с внешними антеннами и слотом microSD — стационарный приватный шлюз для дома и дачи.' },
-    ],
-  },
-  {
-    id: 'power',
-    name: 'Питание',
-    icon: 'power',
-    headline: 'Блоки питания и повербанки без сюрпризов',
-    text: 'Дешёвая зарядка с маркетплейса — это риск для аккумулятора и, в экзотических случаях, вектор атаки через USB (juice jacking). Мы продаём проверенные GaN-зарядки и повербанки, которые сами тестируем.',
-    items: [
-      { id: 'gan-65', name: 'GaN-зарядка 65W, 2×USB-C + USB-A', price: 4990, desc: 'Заряжает Pixel, планшет и ноутбук. Компактная, не греется.' },
-      { id: 'pb-20000', name: 'Повербанк 20000 мАч, PD 30W', price: 7990, desc: 'Две полные зарядки Pixel 10 Pro XL, пасsthrough-зарядка, дисплей заряда.' },
-    ],
-  },
-]
 
 /* ---- Опенсорс-экосистема: вся замена Google Play ---- */
 export const OSS_APPS = [
@@ -308,22 +182,6 @@ export const OSS_APPS = [
   { cat: 'Браузер', apps: 'Vanadium (встроен), Mull', desc: 'Усиленный Chromium от GrapheneOS или укреплённый Firefox.' },
   { cat: 'Клавиатура', apps: 'HeliBoard', desc: 'Без отправки набранного текста на чужие серверы — в отличие от стоковых.' },
 ]
-
-/* ---- Telegram-бот и оплата (отключено, в разработке) ---- */
-// export const TELEGRAM_BOT = 'PixelShieldBot'
-// export const TELEGRAM_URL = `https://t.me/${TELEGRAM_BOT}`
-
-// export function orderDeepLink(cfg: OrderConfig): string {
-//   const code = [
-//     cfg.modelId.replace('pixel-', 'p'),
-//     cfg.color.slice(0, 3).toLowerCase(),
-//     cfg.storage.replace('GB', 'g').replace('TB', 't'),
-//     cfg.sim,
-//     cfg.accessories.join('.') || 'noacc',
-//     cfg.hwMods.join('.') || 'std',
-//   ].join('_').replace(/[^a-zA-Z0-9_.-]/g, '')
-//   return `${TELEGRAM_URL}?start=${code.slice(0, 64)}`
-// }
 
 /* ---- Контент ---- */
 export const PILLARS = [
@@ -357,13 +215,16 @@ export const COMPARE = [
   { feature: 'Поддержка безопасности', g: '7+ лет', a: '3-5 лет' },
 ]
 
+/* FAQ — только утверждённые условия: под заказ, 100% предоплата,
+   доставка СДЭК / СПб / Яндекс Go. */
 export const FAQ = [
-  { q: 'Сломается ли телефон после установки GrapheneOS?', a: 'Нет. GrapheneOS — полноценная операционная система на базе Android. Камера, звонки, интернет, NFC, банковские приложения продолжают работать.' },
-  { q: 'Как работает удаление микрофонов и камер?', a: 'Это аппаратная модификация: мы физически извлекаем микрофоны, акселерометр, гироскоп и/или камеры из корпуса. Программного «отключения» недостаточно — удалённые компоненты невозможно задействовать ни одним приложением или эксплойтом. Звонки после удаления микрофонов возможны через проводную или Bluetooth-гарнитуру.' },
-  { q: 'Как происходит заказ и оплата?', a: 'Заказ оформляется через нашего Telegram-бота: он примет конфигурацию, ответит на вопросы и выдаст реквизиты. Оплата — в экосистеме TON (Toncoin, USDT в сети TON, Telegram Wallet), а также международные карты через платёжный шлюз в боте.' },
-  { q: 'Что такое чехол Фарадея?', a: 'Это экранирующий чехол из токопроводящей ткани. Пока телефон внутри, он полностью отрезан от сотовой сети, Wi-Fi, Bluetooth, GPS и NFC — его нельзя ни отследить, ни активировать удалённо. Вынули из чехла — телефон снова на связи.' },
-  { q: 'Будут ли работать банковские приложения?', a: 'Да. Большинство банков (Сбер, Тинькофф, ВТБ, Альфа) работают через Sandboxed Google Play. Некоторые приложения с жёсткой проверкой SafetyNet могут потребовать дополнительной настройки.' },
-  { q: 'Что входит в цену?', a: 'Всё включено: телефон + установка GrapheneOS + первичная настройка + выбранные аксессуары и аппаратные модификации + доставка СДЭК по России со страховкой груза на полную стоимость.' },
-  { q: 'Сколько занимает весь процесс?', a: 'От оплаты до отправки — 3-5 рабочих дней (с аппаратными модификациями — до 7): закупка, установка ОС, модификация, настройка, тестирование, упаковка и отправка СДЭК.' },
-  { q: 'Можно ли вернуть Google Android?', a: 'Да, в любой момент можно вернуть заводскую прошивку. GrapheneOS не влияет на аппаратную гарантию. Аппаратные модификации (удалённые микрофоны/камеры) необратимы.' },
+  { q: 'Есть ли телефоны в наличии?', a: 'Нет, телефонов в наличии нет — только закупка под заказ. Мы подбираем и выкупаем новый телефон у поставщика под вашу конфигурацию.' },
+  { q: 'Как происходит заказ?', a: 'До оплаты мы согласуем с вами конфигурацию, наличие у поставщика, полную стоимость и срок отправки. Напишите в Telegram-бот @PixelReadyBot или лично @aktogde1.' },
+  { q: 'Что входит в цену?', a: 'Стоимость устройства плюс подготовка 25 000 ₽: подбор и выкуп телефона, установка GrapheneOS, организация доставки и консультация по настройке. Стоимость доставки согласовывается до оплаты отдельно.' },
+  { q: 'Как происходит оплата?', a: '100% предоплата за телефон и подготовку. Способ оплаты и реквизиты мы согласуем с вами до оплаты в переписке.' },
+  { q: 'Как доставлен заказ?', a: 'СДЭК со страхованием на полную стоимость по России. Также возможна личная передача в Санкт-Петербурге или Яндекс Go по согласованию. Авито Доставка не используется.' },
+  { q: 'Почему коробка будет вскрыта?', a: 'Телефон новый, но коробка вскрывается: мы устанавливаем GrapheneOS вместо заводского Android и проверяем устройство перед отправкой.' },
+  { q: 'Сколько ждать заказ?', a: 'Срок зависит от наличия конкретной конфигурации у поставщика — мы согласуем его с вами до оплаты и предупредим, если что-то изменится.' },
+  { q: 'Будут ли работать банковские приложения?', a: 'Да. Большинство банков (Сбер, Тинькофф, ВТБ, Альфа) работают через Sandboxed Google Play. Некоторые приложения с жёсткой проверкой могут потребовать дополнительной настройки.' },
+  { q: 'Можно ли вернуть Google Android?', a: 'Да, в любой момент можно вернуть заводскую прошивку. Установка GrapheneOS не меняет аппаратную часть телефона.' },
 ]

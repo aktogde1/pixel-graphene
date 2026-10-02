@@ -919,6 +919,18 @@ img { max-width: 100%; display: block; }
   color: #229ed9;
 }
 .nav-tg:hover { background: rgba(34, 158, 217, 0.1); }
+.nav-tg-wide {
+  width: auto;
+  border-radius: 999px;
+  padding: 0 18px;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+@media (max-width: 720px) {
+  .nav-tg-wide { padding: 0 12px; }
+  .nav-tg-wide span { display: none; }
+}
 
 .breadcrumbs {
   display: flex;

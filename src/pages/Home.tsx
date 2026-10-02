@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import {
   Shield, Lock, Eye, Cpu, Battery, RefreshCw, ChevronDown, ChevronRight,
-  Check, X, MicOff, CameraOff, Tablet, Laptop, Router, BatteryCharging
+  Check, X,
 } from 'lucide-react'
 import {
   MODELS, IMG_FRONT, PILLARS, FEATURE_CARDS, COMPARE, FAQ,
-  fmtRub, phoneCardImg, realImg, type PhoneModel,
+  fmtRub, minTotal, phoneCardImg, realImg, type PhoneModel,
 } from '../data'
 
 /* ---- Карточка модели в каталоге ---- */
@@ -17,7 +17,7 @@ function HeroCard({ model, big }: { model: PhoneModel, big?: boolean }) {
       <div className="hero-card-top">
         <h2>{model.name}</h2>
         <p className="hero-tagline">{model.tagline}</p>
-        <p className="hero-price">От {fmtRub(model.purchase + model.markup)}</p>
+        <p className="hero-price">От {fmtRub(minTotal(model.id))}</p>
         <div className="hero-card-cta">
           <a href={`#/phone/${model.id}`} className="btn-outline">Подробнее</a>
           <a href={`#/phone/${model.id}`} className="link-buy">Купить <ChevronRight size={16} /></a>
@@ -37,7 +37,6 @@ export default function Home() {
   const [faqOpen, setFaqOpen] = useState<number | null>(0)
   const xl = MODELS.find(m => m.id === 'pixel-10-pro-xl')!
   const fold = MODELS.find(m => m.id === 'pixel-10-pro-fold')!
-  const p10 = MODELS.find(m => m.id === 'pixel-10')!
   const pro = MODELS.find(m => m.id === 'pixel-10-pro')!
   const a10 = MODELS.find(m => m.id === 'pixel-10a')!
 
@@ -50,13 +49,12 @@ export default function Home() {
             <HeroCard model={xl} big />
             <HeroCard model={fold} big />
           </div>
-          <div className="hero-grid hero-grid-3">
-            <HeroCard model={p10} />
+          <div className="hero-grid">
             <HeroCard model={pro} />
             <HeroCard model={a10} />
           </div>
           <div className="catalog-all">
-            <a href="#/phones">Все модели — 9 штук <ChevronRight size={16} /></a>
+            <a href="#/phones">Все модели каталога <ChevronRight size={16} /></a>
           </div>
         </div>
       </section>
@@ -111,68 +109,6 @@ export default function Home() {
             <p>GrapheneOS добавляет несколько слоёв защиты поверх стандартного Android: hardened memory allocator, network permissions, sensors permissions, exec-spawning, auto-reboot, PIN scrambling.</p>
             <p>Каждое приложение спрашивает разрешение только тогда, когда это нужно. Google сервисы живут в песочнице и не видят другие приложения.</p>
             <a href="#/grapheneos" className="btn-primary-dark">Узнать больше о GrapheneOS</a>
-          </div>
-        </div>
-      </section>
-
-      {/* Аппаратная приватность */}
-      <section className="hardware-section">
-        <div className="container">
-          <p className="hw-eyebrow">Опционально · по технологии Nitrophone</p>
-          <h2>Аппаратная приватность.<br />Не программная — физическая.</h2>
-          <p className="hw-lead">
-            Для максимальных требований к безопасности мы физически удаляем из телефона микрофоны,
-            датчики движения и камеры. Никакое приложение, эксплойт или удалённый доступ не сможет
-            задействовать то, чего нет.
-          </p>
-          <div className="hw-grid">
-            <div className="hw-card">
-              <div className="hw-icon"><MicOff size={28} strokeWidth={1.5} /></div>
-              <h3>Без микрофонов и датчиков</h3>
-              <p>Все микрофоны, акселерометр и гироскоп извлекаются из корпуса — датчики движения можно использовать как микрофоны, поэтому они тоже удаляются. Звонки — через внешнюю гарнитуру.</p>
-            </div>
-            <div className="hw-card">
-              <div className="hw-icon"><CameraOff size={28} strokeWidth={1.5} /></div>
-              <h3>Без камер</h3>
-              <p>Фронтальная и основные камеры удаляются физически. Подходит для режимных объектов и переговорных, где фототехника запрещена.</p>
-            </div>
-            <div className="hw-card">
-              <div className="hw-icon"><Shield size={28} strokeWidth={1.5} /></div>
-              <h3>Чехол Фарадея</h3>
-              <p>Экранирующий чехол полностью блокирует радиосигналы: сотовую сеть, Wi-Fi, Bluetooth, GPS и NFC. Телефон невидим для сетей, пока находится внутри.</p>
-            </div>
-          </div>
-          <a href="#/phone/pixel-10-pro" className="btn-light">Добавить в конфигураторе</a>
-        </div>
-      </section>
-
-      {/* Экосистема устройств */}
-      <section className="section devices-teaser">
-        <div className="container">
-          <p className="eyebrow-blue">Экосистема цифровой гигиены</p>
-          <h2>Не только телефоны.</h2>
-          <p className="lead">Планшеты для детей без цифрового следа, ноутбуки ThinkPad с Linux, LTE-роутеры, которые прячут телефон от оператора, и честное питание.</p>
-          <div className="devices-teaser-grid">
-            <a href="#/devices" className="dt-card grad-mint">
-              <Tablet size={32} strokeWidth={1.3} />
-              <h4>Планшеты</h4>
-              <p>Pixel Tablet с GrapheneOS — в том числе для ребёнка</p>
-            </a>
-            <a href="#/devices" className="dt-card grad-gray">
-              <Laptop size={32} strokeWidth={1.3} />
-              <h4>Ноутбуки</h4>
-              <p>ThinkPad с Fedora или Qubes OS</p>
-            </a>
-            <a href="#/devices" className="dt-card grad-blue">
-              <Router size={32} strokeWidth={1.3} />
-              <h4>LTE-роутеры</h4>
-              <p>SIM в роутере — оператор не видит телефон</p>
-            </a>
-            <a href="#/devices" className="dt-card grad-peach">
-              <BatteryCharging size={32} strokeWidth={1.3} />
-              <h4>Питание</h4>
-              <p>GaN-зарядки и повербанки без сюрпризов</p>
-            </a>
           </div>
         </div>
       </section>

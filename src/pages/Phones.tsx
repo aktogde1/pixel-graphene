@@ -1,5 +1,5 @@
 import { ChevronRight } from 'lucide-react'
-import { MODELS, COLOR_HEX, fmtRub, phoneCardImg } from '../data'
+import { MODELS, COLOR_HEX, fmtRub, minTotal, phoneCardImg } from '../data'
 
 export default function Phones() {
   return (
@@ -8,7 +8,10 @@ export default function Phones() {
         <div className="container">
           <p className="eyebrow-blue">Каталог</p>
           <h1>Все смартфоны.</h1>
-          <p className="lead">Каждый — с предустановленной GrapheneOS, настройкой и доставкой в цене.</p>
+          <p className="lead">
+            Новые Pixel 10-й серии с предустановленной GrapheneOS. К цене устройства
+            добавляется подготовка — 25 000 руб.
+          </p>
         </div>
       </section>
       <section className="phones-list">
@@ -27,7 +30,7 @@ export default function Phones() {
                   </div>
                 </div>
                 <div className="phone-row-right">
-                  <span className="phone-row-price">от {fmtRub(m.purchase + m.markup)}</span>
+                  <span className="phone-row-price">от {fmtRub(minTotal(m.id))}</span>
                   <span className="link-buy">Подробнее <ChevronRight size={15} /></span>
                 </div>
               </a>

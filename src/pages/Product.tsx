@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 import {
-  Check, X, MicOff, CameraOff, PenTool, Smartphone, Zap, Shield,
-  Truck, ShieldCheck, Send, ChevronRight
+  Smartphone, Zap, Truck, ShieldCheck, Send, ChevronRight
 } from 'lucide-react'
 import {
-  MODELS, COLOR_HEX, COLOR_IMG, IMG_FRONT, IMG_FOLD, STORAGE_DELTA,
-  ENGRAVING_PRICE, ENGRAVING_MAX, ACCESSORIES, HARDWARE_MODS,
-  getModel, calcTotal, fmt, fmtRub, realImg,
+  MODELS, COLOR_HEX, COLOR_IMG, IMG_FRONT, IMG_FOLD,
+  PREP_FEE, SIM_OPTIONS, TELEGRAM_BOT_URL,
+  getModel, calcTotal, devicePrice, storageDelta, fmt, fmtRub, realImg,
   type OrderConfig,
 } from '../data'
 import { navigate } from '../components'
@@ -17,34 +16,52 @@ interface Props {
   setConfig: (c: OrderConfig) => void
 }
 
+/* Страница отсутствующей в каталоге модели — старые ссылки не должны
+   молча показывать другой телефон. */
+function ModelNotFound() {
+  return (
+    <section className="page-head">
+      <div className="container">
+        <p className="eyebrow-blue">Каталог</p>
+        <h1>Такой модели нет в каталоге.</h1>
+        <p className="lead">
+          Возможно, она была снята с продажи. Актуальный ассортимент — 10-я серия Pixel с GrapheneOS.
+        </p>
+        <a href="#/phones" className="btn-outline-dark">Смотреть каталог <ChevronRight size={16} /></a>
+      </div>
+    </section>
+  )
+}
+
 export default function Product({ id, config, setConfig }: Props) {
   const m = getModel(id)
   const [view, setView] = useState<'back' | 'front'>('back')
 
   // при смене модели — сбрасываем недоступные опции
   useEffect(() => {
-    const next = { ...config, modelId: m.id }
-    if (!m.colors.includes(next.color)) next.color = m.colors[0]
-    if (!m.storage.includes(next.storage)) next.storage = m.storage[0]
+    const model = getModel(id)
+    if (!model) return
+    const next = { ...config, modelId: model.id }
+    if (!model.colors.includes(next.color)) next.color = model.colors[0]
+    if (!model.storage.includes(next.storage)) next.storage = model.storage[0]
+    if (!model.sims.includes(next.sim)) next.sim = model.sims[0]
     setConfig(next)
     setView('back')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   const set = (patch: Partial<OrderConfig>) => setConfig({ ...config, ...patch })
-  const toggle = (key: 'accessories' | 'hwMods', val: string) =>
-    set({ [key]: config[key].includes(val) ? config[key].filter(x => x !== val) : [...config[key], val] } as Partial<OrderConfig>)
 
   const total = calcTotal(config)
   // Реальные рендеры: 'back' — крупный план спинки, 'card' — композиция с фронтом
-  const realBack = realImg(m.id, config.color, 'back')
-  const realFront = realImg(m.id, config.color, 'card')
+  const realBack = m ? realImg(m.id, config.color, 'back') : null
+  const realFront = m ? realImg(m.id, config.color, 'card') : null
   const isReal = !!realBack
-  const fallbackBack = m.fold ? IMG_FOLD : COLOR_IMG[config.color] || IMG_FRONT
+  const fallbackBack = m?.fold ? IMG_FOLD : COLOR_IMG[config.color] || IMG_FRONT
   const mainImg = view === 'front' ? (realFront || IMG_FRONT) : (realBack || fallbackBack)
-  const versionStr = `${m.name} · ${config.color} · ${config.storage} · ${config.sim === 'esim' ? 'eSIM' : 'nano-SIM'}`
+  const versionStr = m ? `${m.name} · ${config.color} · ${config.storage} · ${SIM_OPTIONS[config.sim].title}` : ''
 
-  const specs = [
+  const specs = m ? [
     { label: 'Дисплей', value: m.display + ', ' + (m.glass || 'Gorilla Glass Victus 2') },
     { label: 'Процессор', value: m.chip + ' + сопроцессор безопасности Titan M2' },
     { label: 'Оперативная память', value: m.ram },
@@ -55,7 +72,9 @@ export default function Product({ id, config, setConfig }: Props) {
     ...(m.special ? [{ label: 'Особенности', value: m.special }] : []),
     { label: 'Защита', value: 'IP68, алюминий аэрокосмического класса' },
     { label: 'ОС', value: 'GrapheneOS: verified boot, sandboxed Google Play, отключённая телеметрия, 7+ лет обновлений' },
-  ]
+  ] : []
+
+  if (!m) return <ModelNotFound />
 
   return (
     <>
@@ -84,14 +103,6 @@ export default function Product({ id, config, setConfig }: Props) {
           <div className="product-stage">
             {!isReal && <span className="viz-note">рендер-визуализация</span>}
             <img key={mainImg} src={mainImg} alt={m.name} className="product-img" />
-            {config.engraving.trim() && view === 'back' && !m.fold && (
-              <div className="engraving-preview">Гравировка: «{config.engraving.trim()}»</div>
-            )}
-            <div className="stage-chips">
-              {config.hwMods.includes('mics') && <span className="chip chip-danger"><MicOff size={12} /> без микрофонов</span>}
-              {config.hwMods.includes('cameras') && <span className="chip chip-danger"><CameraOff size={12} /> без камер</span>}
-              {config.accessories.includes('faraday') && <span className="chip"><Shield size={12} /> чехол Фарадея</span>}
-            </div>
           </div>
 
           {/* Опции */}
@@ -106,13 +117,13 @@ export default function Product({ id, config, setConfig }: Props) {
             <div className="opt-block">
               <h3 className="opt-label">Модель</h3>
               <div className="opt-models">
-                {MODELS.filter(x => x.series.includes('10')).map(x => (
+                {MODELS.map(x => (
                   <button key={x.id} className={`opt-model ${id === x.id ? 'active' : ''}`} onClick={() => navigate(`/phone/${x.id}`)}>
                     {x.name}
                   </button>
                 ))}
               </div>
-              <a href="#/phones" className="opt-all-models">Все 9 моделей, включая серию 9 <ChevronRight size={14} /></a>
+              <a href="#/phones" className="opt-all-models">Все модели каталога <ChevronRight size={14} /></a>
             </div>
 
             {/* Цвет */}
@@ -132,12 +143,15 @@ export default function Product({ id, config, setConfig }: Props) {
             <div className="opt-block">
               <h3 className="opt-label">Память</h3>
               <div className="opt-cards">
-                {m.storage.map(s => (
-                  <button key={s} className={`opt-card ${config.storage === s ? 'active' : ''}`} onClick={() => set({ storage: s })}>
-                    <span className="opt-card-title">{s}</span>
-                    <span className="opt-card-sub">{STORAGE_DELTA[s] ? `+${fmt(STORAGE_DELTA[s])}` : 'в базе'}</span>
-                  </button>
-                ))}
+                {m.storage.map(s => {
+                  const delta = storageDelta(m.id, s)
+                  return (
+                    <button key={s} className={`opt-card ${config.storage === s ? 'active' : ''}`} onClick={() => set({ storage: s })}>
+                      <span className="opt-card-title">{s}</span>
+                      <span className="opt-card-sub">{delta ? `+${fmt(delta)}` : 'в базе'}</span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
 
@@ -145,85 +159,16 @@ export default function Product({ id, config, setConfig }: Props) {
             <div className="opt-block">
               <h3 className="opt-label">SIM</h3>
               <div className="opt-cards">
-                <button className={`opt-card ${config.sim === 'esim' ? 'active' : ''}`} onClick={() => set({ sim: 'esim' })}>
-                  <Zap size={18} />
-                  <span className="opt-card-title">eSIM</span>
-                  <span className="opt-card-sub">Активация QR-кодом</span>
-                </button>
-                <button className={`opt-card ${config.sim === 'nano' ? 'active' : ''}`} onClick={() => set({ sim: 'nano' })}>
-                  <Smartphone size={18} />
-                  <span className="opt-card-title">Физическая SIM</span>
-                  <span className="opt-card-sub">Классическая nano-SIM</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Гравировка */}
-            <div className="opt-block">
-              <h3 className="opt-label">Гравировка</h3>
-              <div className="opt-cards">
-                <button className={`opt-card ${!config.engraving && 'active' || ''}`} onClick={() => set({ engraving: '' })}>
-                  <X size={18} />
-                  <span className="opt-card-title">Без гравировки</span>
-                </button>
-                <button className={`opt-card ${config.engraving ? 'active' : ''}`} onClick={() => document.getElementById('engraving-field')?.focus()}>
-                  <PenTool size={18} />
-                  <span className="opt-card-title">С гравировкой</span>
-                  <span className="opt-card-sub">+{fmt(ENGRAVING_PRICE)}</span>
-                </button>
-              </div>
-              <div className="engraving-input">
-                <input
-                  id="engraving-field"
-                  className="form-input"
-                  placeholder={`Текст на задней панели, до ${ENGRAVING_MAX} символов`}
-                  maxLength={ENGRAVING_MAX}
-                  value={config.engraving}
-                  onChange={e => set({ engraving: e.target.value })}
-                />
-                <span className="engraving-count">{config.engraving.length}/{ENGRAVING_MAX}</span>
-              </div>
-            </div>
-
-            {/* Аксессуары */}
-            <div className="opt-block">
-              <h3 className="opt-label">Аксессуары</h3>
-              <div className="acc-list">
-                {ACCESSORIES.map(a => (
-                  <button key={a.id} className={`acc-item ${config.accessories.includes(a.id) ? 'active' : ''}`} onClick={() => toggle('accessories', a.id)}>
-                    <div className="acc-icon acc-brand">{a.brand.slice(0, 2)}</div>
-                    <div className="acc-body">
-                      <span className="acc-name">{a.brand} {a.name}</span>
-                      <span className="acc-desc">{a.desc}</span>
-                    </div>
-                    <div className="acc-right">
-                      <span className="acc-price">+{fmt(a.price)}</span>
-                      <span className="acc-check">{config.accessories.includes(a.id) && <Check size={13} strokeWidth={3} />}</span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-              <a href="#/accessories" className="opt-all-models">Подробнее об аксессуарах <ChevronRight size={14} /></a>
-            </div>
-
-            {/* Аппаратные модификации */}
-            <div className="opt-block">
-              <h3 className="opt-label">Аппаратные модификации <span className="opt-label-tag">опционально</span></h3>
-              <p className="opt-hint">По технологии Nitrophone: для максимальных требований к безопасности компоненты удаляются физически. Модификации необратимы.</p>
-              <div className="acc-list">
-                {HARDWARE_MODS.map(h => (
-                  <button key={h.id} className={`acc-item acc-danger ${config.hwMods.includes(h.id) ? 'active' : ''}`} onClick={() => toggle('hwMods', h.id)}>
-                    <div className="acc-icon">{h.id === 'mics' ? <MicOff size={22} strokeWidth={1.6} /> : <CameraOff size={22} strokeWidth={1.6} />}</div>
-                    <div className="acc-body">
-                      <span className="acc-name">{h.name}</span>
-                      <span className="acc-desc">{h.desc}</span>
-                    </div>
-                    <div className="acc-right">
-                      <span className="acc-price">+{fmt(h.price)}</span>
-                      <span className="acc-check">{config.hwMods.includes(h.id) && <Check size={13} strokeWidth={3} />}</span>
-                    </div>
-                  </button>
-                ))}
+                {m.sims.map(s => {
+                  const opt = SIM_OPTIONS[s]
+                  return (
+                    <button key={s} className={`opt-card ${config.sim === s ? 'active' : ''}`} onClick={() => set({ sim: s })}>
+                      {s === 'esim' ? <Zap size={18} /> : <Smartphone size={18} />}
+                      <span className="opt-card-title">{opt.title}</span>
+                      <span className="opt-card-sub">{opt.sub}</span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
 
@@ -232,21 +177,19 @@ export default function Product({ id, config, setConfig }: Props) {
               <div className="price-value">{fmtRub(total)}</div>
               <div className="price-version">Версия: {versionStr}</div>
               <ul className="price-lines">
-                {config.engraving.trim() && <li><span>Гравировка</span><span>+{fmt(ENGRAVING_PRICE)}</span></li>}
-                {ACCESSORIES.filter(a => config.accessories.includes(a.id)).map(a => (
-                  <li key={a.id}><span>{a.brand} {a.name}</span><span>+{fmt(a.price)}</span></li>
-                ))}
-                {HARDWARE_MODS.filter(h => config.hwMods.includes(h.id)).map(h => (
-                  <li key={h.id} className="line-danger"><span>{h.name}</span><span>+{fmt(h.price)}</span></li>
-                ))}
-                <li><span>GrapheneOS + настройка + доставка СДЭК</span><span>включено</span></li>
+                <li><span>{m.name} · {config.storage}</span><span>{fmtRub(devicePrice(m.id, config.storage))}</span></li>
+                <li><span>Подготовка: GrapheneOS, настройка, организация доставки</span><span>{fmtRub(PREP_FEE)}</span></li>
+                <li><span>Доставка (СДЭК / СПб / Яндекс Go)</span><span>по согласованию</span></li>
               </ul>
-              <a href="#" style={{pointerEvents:'none',opacity:'0.5'}} className="btn-tg btn-tg-full">
-                <Send size={18} /> В разработке
+              <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn-tg btn-tg-full">
+                <Send size={18} /> Заказать в Telegram
               </a>
-              <a href="#/checkout" className="btn-buy-alt">Оплата и доставка</a>
+              <p className="opt-hint" style={{ marginTop: 10 }}>
+                Выбранная конфигурация пока не передаётся в бот автоматически — сообщите её в чате.
+              </p>
+              <a href="#/payment" className="btn-buy-alt">Оплата и доставка</a>
               <div className="price-badges">
-                <span><Truck size={14} /> 3–7 дней до отправки</span>
+                <span><Truck size={14} /> Закупка под заказ</span>
                 <span><ShieldCheck size={14} /> Verified Boot из коробки</span>
               </div>
             </div>

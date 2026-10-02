@@ -1,8 +1,8 @@
 import {
   Shield, Lock, Cpu, KeyRound, Wifi, Fingerprint, RefreshCw,
-  HardDrive, Users, Globe, ChevronRight, Check, UserX, Baby, BluetoothOff
+  HardDrive, Users, Globe, ChevronRight, Check, UserX, BluetoothOff
 } from 'lucide-react'
-import { IMG_FRONT, fmtRub, getModel, OSS_APPS, realImg } from '../data'
+import { IMG_FRONT, fmtRub, minTotal, OSS_APPS, realImg } from '../data'
 
 const SECTIONS = [
   {
@@ -34,14 +34,14 @@ const DEEP_FEATURES = [
 ]
 
 const STEPS = [
-  { num: '01', title: 'Выбираете конфигурацию', text: 'Модель, цвет, память, аксессуары и аппаратные модификации — в карточке телефона.' },
-  { num: '02', title: 'Оформляете в Telegram-боте', text: 'Бот примет заказ, ответит на вопросы и выдаст реквизиты для оплаты в TON или картой.' },
-  { num: '03', title: 'Мы закупаем и собираем', text: 'Закупка телефона, установка GrapheneOS, аппаратные модификации, настройка и тестирование — 3-7 дней.' },
-  { num: '04', title: 'Получаете готовый телефон', text: 'Доставка СДЭК со страховкой на полную стоимость. Включили — и сразу пользуетесь.' },
+  { num: '01', title: 'Выбираете конфигурацию', text: 'Модель, память, цвет и версию SIM — в карточке телефона или сразу в чате.' },
+  { num: '02', title: 'Согласуем заказ в Telegram', text: 'До оплаты обсуждаем наличие у поставщика, полную стоимость и срок отправки.' },
+  { num: '03', title: 'Мы закупаем и собираем', text: 'Выкуп телефона, установка GrapheneOS, настройка, проверка и упаковка.' },
+  { num: '04', title: 'Получаете готовый телефон', text: 'СДЭК со страхованием на полную стоимость, личная передача в Санкт-Петербурге или Яндекс Go по согласованию.' },
 ]
 
 export default function Graphene() {
-  const cheapest = getModel('pixel-10a')
+  const cheapestFrom = minTotal('pixel-10a')
   return (
     <>
       {/* Герой страницы */}
@@ -52,7 +52,7 @@ export default function Graphene() {
             <h1>GrapheneOS.<br />Телефон, который<br />работает на вас.</h1>
             <p>Приватная и безопасная ОС с полной совместимостью с Android-приложениями. Устанавливаем на каждый Pixel перед отправкой — вам остаётся только включить.</p>
             <div className="g-hero-cta">
-              <a href="#/" className="btn-primary-dark">Выбрать Pixel — от {fmtRub(cheapest.purchase + cheapest.markup)}</a>
+              <a href="#/" className="btn-primary-dark">Выбрать Pixel — от {fmtRub(cheapestFrom)}</a>
             </div>
           </div>
           <div className="g-hero-img">
@@ -149,23 +149,6 @@ export default function Graphene() {
         </div>
       </section>
 
-      {/* ПЛАНШЕТ РЕБЁНКУ */}
-      <section className="kids">
-        <div className="container kids-inner">
-          <div className="kids-icon"><Baby size={40} strokeWidth={1.3} /></div>
-          <div>
-            <h2>Ребёнку — планшет на GrapheneOS.</h2>
-            <p>
-              С обычного планшета цифровой след ребёнка начинает копиться с первого касания:
-              рекламный профиль формируется раньше школьного дневника и остаётся на всю жизнь.
-              На GrapheneOS детский профиль полностью изолирован: нет аккаунта, нет сбора данных,
-              нет «персональных рекомендаций». Только мультики, книги и учебные приложения — по вашему выбору.
-            </p>
-            <a href="#/devices" className="link-buy">Смотреть Pixel Tablet с GrapheneOS <ChevronRight size={16} /></a>
-          </div>
-        </div>
-      </section>
-
       {/* ПРОТИВ BLUETOOTH-НОСИМЫХ */}
       <section className="nowear">
         <div className="container nowear-inner">
@@ -199,7 +182,7 @@ export default function Graphene() {
       <section className="section g-steps">
         <div className="container">
           <h2>Как происходит покупка.</h2>
-          <p className="lead">От выбора конфигурации до телефона в руках — 3-7 рабочих дней</p>
+          <p className="lead">Согласуем конфигурацию, стоимость и срок до оплаты — заказ под заказ</p>
           <div className="g-steps-grid">
             {STEPS.map((s, i) => (
               <div className="g-step" key={i}>
@@ -216,7 +199,7 @@ export default function Graphene() {
       {/* Баннер Fold */}
       <section className="g-fold-banner">
         <div className="container g-fold-inner">
-          <img src={realImg('pixel-10-pro-fold', 'Jade', 'card') || ''} alt="Pixel 10 Pro Fold" loading="lazy" />
+          <img src={realImg('pixel-10-pro-fold', 'Moonstone', 'card') || ''} alt="Pixel 10 Pro Fold" loading="lazy" />
           <div>
             <h2>Даже складной — с GrapheneOS.</h2>
             <p>Pixel 10 Pro Fold полностью поддерживается: verified boot, sandboxed Google Play и все функции приватности на обоих экранах.</p>

@@ -57,41 +57,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Что вы покупаете в Your Pixel with Graphene */}
-      <section className="section buy-section">
-        <div className="container">
-          <p className="eyebrow-blue">Суть предложения</p>
-          <h2>Что вы покупаете в Your Pixel with Graphene.</h2>
-          <p className="lead">
-            GrapheneOS — бесплатная открытая система. Вы платите за подбор и выкуп телефона,
-            установку, проверку устройства и согласованный объём помощи с настройкой.
-          </p>
-          <div className="buy-grid">
-            <div className="buy-card">
-              <h3>Готовый новый Pixel с GrapheneOS</h3>
-              <p>
-                Выбираете аппарат и конфигурацию в каталоге, переходите в профиль на Авито.
-                Телефон новый, под заказ: конфигурацию, наличие у проверенного поставщика, итоговую стоимость
-                и срок отправки мы фиксируем в переписке до оплаты.
-              </p>
-              <a href={AVITO_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="btn-avito">
-                <MessageSquare size={17} /> Написать на Авито
-              </a>
-            </div>
-            <div className="buy-card">
-              <h3>GrapheneOS на ваш собственный Pixel</h3>
-              <p>
-                Уже есть подходящий аппарат Google Pixel? Напишите нам в сообщения на Авито для консультации
-                по установке. Совместимость конкретной модели и состояние загрузчика проверяем заранее,
-                до каких-либо договорённостей.
-              </p>
-              <a href={AVITO_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="btn-outline-dark">
-                <MessageSquare size={17} /> Задать вопрос на Авито
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Зачем GrapheneOS — тизер */}
       <section className="section">

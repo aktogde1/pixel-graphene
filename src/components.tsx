@@ -6,7 +6,7 @@ export function navigate(to: string) {
   window.location.hash = to
 }
 
-const TICKER_ITEMS = ['заказ через Telegram-бота', 'телефоны под заказ', 'подготовка 25 000 ₽']
+const TICKER_ITEMS = ['заказ через Telegram-бота', 'телефоны под заказ', 'подготовка включена в цену']
 
 export function DevBanner() {
   const line = TICKER_ITEMS.join('  ·  ') + '  ·  '
@@ -39,13 +39,14 @@ export function Nav({ route }: { route: string }) {
   return (
     <nav className="nav">
       <div className="container nav-inner">
-        <a href="#/" className="nav-logo">
+        <a href="#/" className="nav-logo" aria-label="Your Pixel with Graphene — на главную">
           <ShieldCheck size={22} strokeWidth={2.2} />
-          Pixel<span>Ready</span>
+          Your Pixel<span> with Graphene</span>
         </a>
         <ul className={`nav-links ${mobileOpen ? 'open' : ''}`}>
           {link('/', 'Смартфоны')}
           {link('/grapheneos', 'GrapheneOS')}
+          {link('/graphene', 'Графен')}
           {link('/payment', 'Оплата и доставка')}
           {link('/terms', 'Условия')}
         </ul>
@@ -73,7 +74,7 @@ export function Footer() {
       <div className="container">
         <div className="footer-inner">
           <div className="footer-brand">
-            <h3><ShieldCheck size={20} /> PixelReady</h3>
+            <h3><ShieldCheck size={20} /> Your Pixel with Graphene</h3>
             <p>Новые Google Pixel с предустановленной GrapheneOS под заказ: подбор, установка системы, доставка.</p>
             <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="footer-tg">
               <Send size={16} /> @PixelReadyBot
@@ -89,6 +90,7 @@ export function Footer() {
           <div className="footer-col">
             <h4>Информация</h4>
             <a href="#/grapheneos">Что такое GrapheneOS</a>
+            <a href="#/graphene">Графен как материал</a>
             <a href="#/payment">Оплата и доставка</a>
             <a href="#/terms">Условия покупки</a>
           </div>
@@ -101,7 +103,7 @@ export function Footer() {
         </div>
         <div className="footer-bottom">
           <p className="footer-indep">Не связано с Google или проектом GrapheneOS.</p>
-          © 2026 PixelReady. GrapheneOS — открытая операционная система. Google Pixel — товарный знак Google LLC.
+          © 2026 Your Pixel with Graphene. GrapheneOS — открытая операционная система. Google Pixel — товарный знак Google LLC.
         </div>
       </div>
     </footer>

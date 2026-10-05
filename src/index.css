@@ -55,15 +55,29 @@ img { max-width: 100%; display: block; }
   gap: 24px;
 }
 .nav-logo {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.5px;
   display: flex;
   align-items: center;
   gap: 8px;
   color: var(--accent);
+  white-space: nowrap;
 }
 .nav-logo span { color: var(--text); }
+/* Длинное название бренда: компактнее в диапазоне с раскрытым меню */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .nav-logo { font-size: 15.5px; letter-spacing: -0.6px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 14px; }
+}
+@media (min-width: 1025px) and (max-width: 1120px) {
+  .nav-tg-wide { width: 40px; padding: 0; justify-content: center; }
+  .nav-tg-wide span { display: none; }
+}
+@media (max-width: 720px) {
+  .nav-logo { font-size: 16px; }
+}
 .nav-links {
   display: flex;
   gap: 36px;
@@ -524,7 +538,7 @@ img { max-width: 100%; display: block; }
   color: var(--text-soft);
   border-bottom: 1px solid var(--border);
 }
-.price-lines li span:last-child { font-weight: 600; color: var(--text); white-space: nowrap; }
+.price-lines li span + span { font-weight: 600; color: var(--text); white-space: nowrap; }
 .price-lines .line-danger span { color: var(--red); }
 .btn-buy {
   display: flex;
@@ -629,7 +643,7 @@ img { max-width: 100%; display: block; }
 .g-mint { background: linear-gradient(160deg, #ddf0e4, #c6e4d2); }
 .g-peach { background: linear-gradient(160deg, #f7e8dd, #f0d6c2); }
 
-/* Что вы покупаете у PixelReady */
+/* Что вы покупаете в Your Pixel with Graphene */
 .buy-section { padding-bottom: 0; }
 .buy-grid {
   display: grid;
@@ -1869,4 +1883,96 @@ img { max-width: 100%; display: block; }
 .terms-cta p { margin: 0; font-weight: 600; }
 @media (max-width: 720px) {
   .terms-block { padding: 20px; }
+}
+
+/* ============================ СТРАНИЦА «ГРАФЕН» ============================ */
+.gm-hero {
+  background: linear-gradient(160deg, #dce8f7 0%, #c9daf2 60%, #b8cdec 100%);
+  padding: 72px 0 64px;
+  overflow: hidden;
+}
+.gm-hero .g-hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.gm-hero-fig { display: flex; justify-content: center; }
+.gm-fig {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow-lg);
+  padding: 16px 16px 10px;
+  max-width: 660px;
+  width: 100%;
+}
+.gm-svg { width: 100%; height: auto; display: block; }
+.gm-hex { fill: none; stroke: var(--border-strong); stroke-width: 1.5; }
+.gm-hex-hi { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+.gm-bond-hi { stroke: var(--accent); stroke-width: 3.5; stroke-linecap: round; }
+.gm-atom { fill: var(--text-muted); }
+.gm-atom-hi-ring { fill: rgba(63, 125, 232, 0.18); }
+.gm-atom-hi { fill: var(--accent); }
+.gm-lead { stroke: var(--text-muted); stroke-width: 1; stroke-dasharray: 3 3; fill: none; }
+.gm-label {
+  font-size: 15px;
+  font-weight: 600;
+  fill: var(--text);
+  paint-order: stroke;
+  stroke: #ffffff;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.gm-caption {
+  font-size: 12.5px;
+  color: var(--text-soft);
+  text-align: center;
+  padding: 10px 8px 6px;
+  line-height: 1.45;
+}
+.gm-props {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 8px;
+}
+.gm-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  text-align: left;
+  margin-top: 8px;
+}
+.gm-sources {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 28px;
+  text-align: left;
+}
+.gm-source {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.gm-source:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--border-strong); }
+.gm-source > svg:first-child { color: var(--accent); flex-shrink: 0; }
+.gm-source span { flex: 1; font-size: 13.5px; color: var(--text-soft); line-height: 1.5; }
+.gm-source strong { display: block; font-size: 15px; color: var(--text); margin-bottom: 2px; }
+.gm-source > svg:last-child { color: var(--text-muted); flex-shrink: 0; }
+.gm-cta { text-align: center; }
+.gm-cta h2 { margin-bottom: 12px; }
+.gm-cta .btn-primary-dark { background: var(--text); color: #fff; margin-top: 0; }
+.gm-cta .btn-primary-dark:hover { background: #000; }
+.gm-cta .btn-outline-dark { margin-top: 0; }
+
+@media (max-width: 1024px) {
+  .gm-props { grid-template-columns: repeat(2, 1fr); }
+  .gm-steps { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .gm-props, .gm-steps { grid-template-columns: 1fr; }
+  .gm-hero { padding: 56px 0 48px; }
+  .gm-label { font-size: 22px; }
 }

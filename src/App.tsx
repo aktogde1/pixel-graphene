@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Phones from './pages/Phones'
 import Product from './pages/Product'
 import Graphene from './pages/Graphene'
+import GrapheneMaterial from './pages/GrapheneMaterial'
 import Payment from './pages/Payment'
 import Checkout from './pages/Checkout'
 import Terms from './pages/Terms'
@@ -34,6 +35,7 @@ export default function App() {
     case '/phones': page = <Phones />; break
     case '/phone': page = <Product id={param || ''} config={config} setConfig={setConfig} />; break
     case '/grapheneos': page = <Graphene />; break
+    case '/graphene': page = <GrapheneMaterial />; break
     case '/payment': page = <Payment />; break
     case '/checkout': page = <Checkout config={config} />; break
     case '/terms': page = <Terms />; break

@@ -1,5 +1,5 @@
 import { FileText, RefreshCcw, ShieldCheck, Lock, Truck, Wallet } from 'lucide-react'
-import { PREP_FEE, TELEGRAM_BOT_URL, TELEGRAM_CONTACT_URL, fmtRub } from '../data'
+import { INCLUDED_IN_PRICE, TELEGRAM_BOT_URL, TELEGRAM_CONTACT_URL } from '../data'
 
 export default function Terms() {
   return (
@@ -18,15 +18,15 @@ export default function Terms() {
             <li><strong>Предмет.</strong> Новые смартфоны Google Pixel с предустановленной GrapheneOS под заказ.</li>
             <li><strong>Наличие.</strong> Телефонов в наличии нет — только закупка под заказ под вашу конфигурацию.</li>
             <li><strong>Согласование до оплаты.</strong> Конфигурация, наличие у поставщика, полная стоимость и срок отправки фиксируются до того, как вы платите.</li>
-            <li><strong>Предоплата.</strong> 100% предоплата за телефон и подготовку.</li>
+            <li><strong>Предоплата.</strong> 100% предоплата полной стоимости заказа.</li>
           </ul>
         </div>
 
         <div className="terms-block">
           <h2><Wallet size={20} /> Стоимость</h2>
           <ul className="terms-list">
-            <li><strong>Цена телефона</strong> — по каталогу на сайте, зависит от модели и памяти.</li>
-            <li><strong>Подготовка — {fmtRub(PREP_FEE)}:</strong> подбор и выкуп телефона, установка GrapheneOS, организация доставки, консультация по настройке.</li>
+            <li><strong>Цена телефона — итоговая,</strong> по каталогу на сайте: зависит от модели и памяти, подготовка уже включена.</li>
+            <li><strong>Что входит в цену:</strong> {INCLUDED_IN_PRICE.join(', ')}.</li>
             <li><strong>Доставка</strong> в цену не включена — её стоимость и условия согласуются до оплаты.</li>
             <li>Мы не обещаем отправку в день оплаты: срок закупки зависит от поставщика и согласовывается заранее.</li>
           </ul>

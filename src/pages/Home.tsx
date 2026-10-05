@@ -60,11 +60,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Что вы покупаете у PixelReady */}
+      {/* Что вы покупаете в Your Pixel with Graphene */}
       <section className="section buy-section">
         <div className="container">
           <p className="eyebrow-blue">Суть предложения</p>
-          <h2>Что вы покупаете у PixelReady.</h2>
+          <h2>Что вы покупаете в Your Pixel with Graphene.</h2>
           <p className="lead">
             GrapheneOS — бесплатная открытая система. Вы платите за подбор и выкуп телефона,
             установку, проверку устройства и согласованный объём помощи с настройкой.

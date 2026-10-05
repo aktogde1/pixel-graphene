@@ -4,8 +4,8 @@ import {
 } from 'lucide-react'
 import {
   MODELS, COLOR_HEX, COLOR_IMG, IMG_FRONT, IMG_FOLD,
-  PREP_FEE, SIM_OPTIONS, TELEGRAM_BOT_URL,
-  getModel, calcTotal, devicePrice, storageDelta, fmt, fmtRub, realImg,
+  INCLUDED_IN_PRICE, SIM_OPTIONS, TELEGRAM_BOT_URL,
+  getModel, calcTotal, storageDelta, fmt, fmtRub, realImg,
   type OrderConfig,
 } from '../data'
 import { navigate } from '../components'
@@ -177,8 +177,8 @@ export default function Product({ id, config, setConfig }: Props) {
               <div className="price-value">{fmtRub(total)}</div>
               <div className="price-version">Версия: {versionStr}</div>
               <ul className="price-lines">
-                <li><span>{m.name} · {config.storage}</span><span>{fmtRub(devicePrice(m.id, config.storage))}</span></li>
-                <li><span>Подготовка: GrapheneOS, настройка, организация доставки</span><span>{fmtRub(PREP_FEE)}</span></li>
+                <li><span>Итоговая цена — подготовка уже включена</span></li>
+                <li><span>В цену входит: {INCLUDED_IN_PRICE.join(', ')}</span></li>
                 <li><span>Доставка (СДЭК / СПб / Яндекс Go)</span><span>по согласованию</span></li>
               </ul>
               <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn-tg btn-tg-full">

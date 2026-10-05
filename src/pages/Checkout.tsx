@@ -24,7 +24,7 @@ export default function Checkout({ config }: { config: OrderConfig }) {
               <li><strong>Цвет:</strong> {config.color}</li>
               <li><strong>Память:</strong> {config.storage}</li>
               <li><strong>SIM:</strong> {SIM_OPTIONS[config.sim].title}</li>
-              <li><strong>Итог с подготовкой:</strong> {fmtRub(calcTotal(config))}</li>
+              <li><strong>Итоговая стоимость (подготовка включена):</strong> {fmtRub(calcTotal(config))}</li>
             </ul>
             <p style={{ marginTop: 12, fontFamily: 'monospace', fontSize: 14 }}>
               {`${m.name}, ${config.color}, ${config.storage}, ${SIM_OPTIONS[config.sim].title}`}

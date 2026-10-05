@@ -1,5 +1,5 @@
 import { Wallet, Truck, Clock, Send, FileCheck } from 'lucide-react'
-import { PREP_FEE, TELEGRAM_BOT_URL, TELEGRAM_CONTACT_URL, fmtRub } from '../data'
+import { INCLUDED_IN_PRICE, TELEGRAM_BOT_URL, TELEGRAM_CONTACT_URL } from '../data'
 
 export default function Payment() {
   return (
@@ -23,8 +23,8 @@ export default function Payment() {
         <div className="terms-block">
           <h2><Wallet size={20} /> Оплата</h2>
           <ul className="terms-list">
-            <li><strong>100% предоплата</strong> за телефон и подготовку.</li>
-            <li><strong>Из чего складывается цена:</strong> стоимость устройства по каталогу + подготовка {fmtRub(PREP_FEE)} (подбор и выкуп, установка GrapheneOS, организация доставки, консультация по настройке).</li>
+            <li><strong>100% предоплата</strong> полной стоимости заказа.</li>
+            <li><strong>Цена на сайте — итоговая:</strong> подготовка уже включена ({INCLUDED_IN_PRICE.join(', ')}).</li>
             <li><strong>Доставка оплачивается отдельно</strong> — её стоимость и способ согласовываются до оплаты.</li>
             <li>Способ оплаты и реквизиты выдаются в переписке при согласовании заказа.</li>
           </ul>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import {
-  Smartphone, Zap, Truck, ShieldCheck, Send, ChevronRight
+  Smartphone, Zap, ChevronRight, MessageSquare, Copy, Check
 } from 'lucide-react'
 import {
   MODELS, COLOR_HEX, COLOR_IMG, IMG_FRONT, IMG_FOLD,
-  INCLUDED_IN_PRICE, SIM_OPTIONS, TELEGRAM_BOT_URL,
-  getModel, calcTotal, storageDelta, fmt, fmtRub, realImg,
+  INCLUDED_IN_PRICE, SIM_OPTIONS, AVITO_PROFILE_URL,
+  formatOrderSummary, getModel, calcTotal, storageDelta, fmt, fmtRub, realImg,
   type OrderConfig,
 } from '../data'
 import { navigate } from '../components'
@@ -36,6 +36,7 @@ function ModelNotFound() {
 export default function Product({ id, config, setConfig }: Props) {
   const m = getModel(id)
   const [view, setView] = useState<'back' | 'front'>('back')
+  const [copied, setCopied] = useState(false)
 
   // при смене модели — сбрасываем недоступные опции
   useEffect(() => {
@@ -181,16 +182,34 @@ export default function Product({ id, config, setConfig }: Props) {
                 <li><span>В цену входит: {INCLUDED_IN_PRICE.join(', ')}</span></li>
                 <li><span>Доставка (СДЭК / СПб / Яндекс Go)</span><span>по согласованию</span></li>
               </ul>
-              <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn-tg btn-tg-full">
-                <Send size={18} /> Заказать в Telegram
-              </a>
+              <div className="product-actions-group">
+                <a href={AVITO_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="btn-avito btn-avito-full">
+                  <MessageSquare size={18} /> Написать продавцу на Авито
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const text = formatOrderSummary(config)
+                    navigator.clipboard.writeText(text)
+                    setCopied(true)
+                    setTimeout(() => setCopied(false), 2200)
+                  }}
+                  className={`btn-copy-summary ${copied ? 'copied' : ''}`}
+                >
+                  {copied ? <Check size={16} /> : <Copy size={16} />}
+                  <span>{copied ? 'Параметры скопированы!' : 'Скопировать спецификацию заказа'}</span>
+                </button>
+              </div>
               <p className="opt-hint" style={{ marginTop: 10 }}>
-                Выбранная конфигурация пока не передаётся в бот автоматически — сообщите её в чате.
+                Скопируйте параметры вашей сборки и отправьте их продавцу в чате на Авито для подтверждения.
               </p>
               <a href="#/payment" className="btn-buy-alt">Оплата и доставка</a>
-              <div className="price-badges">
-                <span><Truck size={14} /> Закупка под заказ</span>
-                <span><ShieldCheck size={14} /> Verified Boot из коробки</span>
+              <div className="price-badges-clean">
+                <span>Закупка под заказ</span>
+                <span className="dot-sep">·</span>
+                <span>Verified Boot</span>
+                <span className="dot-sep">·</span>
+                <span>100% предоплата</span>
               </div>
             </div>
           </div>

@@ -1,20 +1,25 @@
 import { useState } from 'react'
-import { ShieldCheck, Menu, Send } from 'lucide-react'
-import { TELEGRAM_BOT_URL, TELEGRAM_CONTACT_URL } from './data'
+import { Menu, MessageSquare } from 'lucide-react'
+import { AVITO_PROFILE_URL } from './data'
 
 export function navigate(to: string) {
   window.location.hash = to
 }
 
-const TICKER_ITEMS = ['заказ через Telegram-бота', 'телефоны под заказ', 'подготовка включена в цену']
+const TICKER_ITEMS = [
+  'заказ через профиль на Авито',
+  'телефоны под заказ',
+  'подготовка включена в цену',
+  'доставка СДЭК со страхованием',
+]
 
 export function DevBanner() {
   const line = TICKER_ITEMS.join('  ·  ') + '  ·  '
   return (
     <div className="dev-banner">
       <div className="dev-banner-top">
-        <span className="dev-banner-badge">Beta</span>
-        Каталог открыт — оформление заказа из конфигуратора пока не подключено, заказ через Telegram
+        <span className="dev-banner-badge">Авито</span>
+        Каталог открыт — выберите конфигурацию и напишите в сообщения продавцу на Авито
       </div>
       <div className="dev-banner-tick">
         <span className="dev-banner-track">{line}{line}{line}</span>
@@ -40,28 +45,28 @@ export function Nav({ route }: { route: string }) {
     <nav className="nav">
       <div className="container nav-inner">
         <a href="#/" className="nav-logo" aria-label="Your Pixel with Graphene — на главную">
-          <ShieldCheck size={22} strokeWidth={2.2} />
           Your Pixel<span> with Graphene</span>
         </a>
         <ul className={`nav-links ${mobileOpen ? 'open' : ''}`}>
           {link('/', 'Смартфоны')}
           {link('/grapheneos', 'GrapheneOS')}
-          {link('/graphene', 'Графен')}
           {link('/payment', 'Оплата и доставка')}
           {link('/terms', 'Условия')}
         </ul>
         <div className="nav-actions">
           <a
-            href={TELEGRAM_BOT_URL}
+            href={AVITO_PROFILE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="nav-tg nav-tg-wide"
-            aria-label="Заказать в Telegram-боте @PixelReadyBot"
+            className="nav-avito"
+            aria-label="Написать продавцу на Авито"
           >
-            <Send size={18} />
-            <span>Заказать в Telegram</span>
+            <MessageSquare size={16} />
+            <span>Написать на Авито</span>
           </a>
-          <button className="nav-menu-btn" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Меню"><Menu size={20} /></button>
+          <button className="nav-menu-btn" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Меню">
+            <Menu size={20} />
+          </button>
         </div>
       </div>
     </nav>
@@ -74,10 +79,10 @@ export function Footer() {
       <div className="container">
         <div className="footer-inner">
           <div className="footer-brand">
-            <h3><ShieldCheck size={20} /> Your Pixel with Graphene</h3>
+            <h3>Your Pixel with Graphene</h3>
             <p>Новые Google Pixel с предустановленной GrapheneOS под заказ: подбор, установка системы, доставка.</p>
-            <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="footer-tg">
-              <Send size={16} /> @PixelReadyBot
+            <a href={AVITO_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="footer-avito-link">
+              <MessageSquare size={15} /> Профиль продавца на Авито
             </a>
           </div>
           <div className="footer-col">
@@ -89,15 +94,15 @@ export function Footer() {
           </div>
           <div className="footer-col">
             <h4>Информация</h4>
-            <a href="#/grapheneos">Что такое GrapheneOS</a>
-            <a href="#/graphene">Графен как материал</a>
+            <a href="#/grapheneos">GrapheneOS и предыстория</a>
             <a href="#/payment">Оплата и доставка</a>
             <a href="#/terms">Условия покупки</a>
           </div>
           <div className="footer-col">
             <h4>Связь</h4>
-            <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer">Заказ — @PixelReadyBot</a>
-            <a href={TELEGRAM_CONTACT_URL} target="_blank" rel="noopener noreferrer">Вопросы — @aktogde1</a>
+            <a href={AVITO_PROFILE_URL} target="_blank" rel="noopener noreferrer">
+              Заказ и вопросы — Профиль на Авито
+            </a>
             <a href="#/terms">Условия и оферта</a>
           </div>
         </div>

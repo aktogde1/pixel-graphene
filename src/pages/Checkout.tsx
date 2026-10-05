@@ -1,46 +1,95 @@
-import { Send } from 'lucide-react'
+import { useState } from 'react'
+import { MessageSquare, Copy, Check, ChevronLeft } from 'lucide-react'
 import {
-  SIM_OPTIONS, TELEGRAM_BOT_URL, TELEGRAM_CONTACT_URL,
-  getModel, calcTotal, fmtRub, type OrderConfig,
+  SIM_OPTIONS, AVITO_PROFILE_URL,
+  getModel, calcTotal, fmtRub, formatOrderSummary, type OrderConfig,
 } from '../data'
 
 export default function Checkout({ config }: { config: OrderConfig }) {
   const m = getModel(config.modelId)
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = () => {
+    const summary = formatOrderSummary(config)
+    navigator.clipboard.writeText(summary)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2200)
+  }
+
   return (
-    <section className="page-head">
-      <div className="container">
-        <p className="eyebrow-blue">Оформление заказа</p>
-        <h1>Оформление из конфигуратора пока не подключено.</h1>
+    <section className="page-head checkout-page">
+      <div className="container container-narrow">
+        <a href={`#/phone/${config.modelId}`} className="checkout-back-link">
+          <ChevronLeft size={16} /> Вернуться в конфигуратор
+        </a>
+
+        <p className="eyebrow-blue">Заказ через Авито</p>
+        <h1>Ваша конфигурация готова к согласованию.</h1>
         <p className="lead">
-          Сквозная передача заказа в бот появится позже. Сейчас вы можете выбрать конфигурацию здесь,
-          а затем сообщить её в чате — вручную или скопировав текст ниже.
+          Мы работаем через официальный профиль на Авито с реальными отзывами. Скопируйте спецификацию заказа
+          и отправьте её в диалог для подтверждения наличия, итоговой стоимости и сроков доставки.
         </p>
 
         {m && (
-          <div className="terms-block" style={{ textAlign: 'left' }}>
-            <h2>Ваша конфигурация</h2>
-            <ul className="terms-list">
-              <li><strong>Модель:</strong> Google {m.name}</li>
-              <li><strong>Цвет:</strong> {config.color}</li>
-              <li><strong>Память:</strong> {config.storage}</li>
-              <li><strong>SIM:</strong> {SIM_OPTIONS[config.sim].title}</li>
-              <li><strong>Итоговая стоимость (подготовка включена):</strong> {fmtRub(calcTotal(config))}</li>
+          <div className="checkout-card">
+            <div className="checkout-card-header">
+              <h2>Google {m.name}</h2>
+              <span className="checkout-price">{fmtRub(calcTotal(config))}</span>
+            </div>
+
+            <ul className="checkout-specs-list">
+              <li>
+                <span className="spec-label">Цвет корпуса</span>
+                <span className="spec-value">{config.color}</span>
+              </li>
+              <li>
+                <span className="spec-label">Объём памяти</span>
+                <span className="spec-value">{config.storage}</span>
+              </li>
+              <li>
+                <span className="spec-label">Версия SIM</span>
+                <span className="spec-value">{SIM_OPTIONS[config.sim].title}</span>
+              </li>
+              <li>
+                <span className="spec-label">Операционная система</span>
+                <span className="spec-value">GrapheneOS (чистая установка, закрытый загрузчик)</span>
+              </li>
+              <li>
+                <span className="spec-label">Подготовка и проверка</span>
+                <span className="spec-value">Включена в стоимость (подбор, выкуп, прошивка)</span>
+              </li>
+              <li>
+                <span className="spec-label">Доставка</span>
+                <span className="spec-value">СДЭК со страхованием на полную стоимость</span>
+              </li>
             </ul>
-            <p style={{ marginTop: 12, fontFamily: 'monospace', fontSize: 14 }}>
-              {`${m.name}, ${config.color}, ${config.storage}, ${SIM_OPTIONS[config.sim].title}`}
+
+            <div className="checkout-actions">
+              <button
+                type="button"
+                onClick={handleCopy}
+                className={`btn-copy-checkout ${copied ? 'copied' : ''}`}
+              >
+                {copied ? <Check size={18} /> : <Copy size={18} />}
+                <span>{copied ? 'Спецификация скопирована!' : 'Скопировать текст заказа'}</span>
+              </button>
+
+              <a
+                href={AVITO_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-avito-checkout"
+              >
+                <MessageSquare size={18} />
+                <span>Написать продавцу на Авито</span>
+              </a>
+            </div>
+
+            <p className="checkout-hint">
+              В диалоге на Авито вставьте скопированный текст. Мы сразу ответим по точным срокам поставки и реквизитам.
             </p>
           </div>
         )}
-
-        <div className="terms-cta">
-          <p>Заказ и вопросы по конфигурации:</p>
-          <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn-tg">
-            <Send size={18} /> @PixelReadyBot
-          </a>
-          <p style={{ marginTop: 10 }}>
-            или лично: <a href={TELEGRAM_CONTACT_URL} target="_blank" rel="noopener noreferrer">@aktogde1</a>
-          </p>
-        </div>
       </div>
     </section>
   )

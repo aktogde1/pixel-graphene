@@ -1,0 +1,8 @@
+{
+  "name": "Your Pixel with Graphene",
+  "description": "Новые Google Pixel 10-й серии с предустановленной GrapheneOS под заказ: Pixel 10 Pro, 10 Pro XL, 10 Pro Fold, 10a. Конфигуратор, итоговая цена с включённой подготовкой, 100% предоплата, доставка СДЭК со страхованием. Заказ через профиль на Авито.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

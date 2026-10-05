@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import {
-  Shield, Lock, Eye, Cpu, Battery, RefreshCw, ChevronDown, ChevronRight,
-  Check, X, PackageCheck, Smartphone, Send, MessageCircle, Quote,
+  ChevronDown, ChevronRight, Check, X, Quote, MessageSquare
 } from 'lucide-react'
 import {
   MODELS, IMG_FRONT, PILLARS, FEATURE_CARDS, COMPARE, FAQ, REVIEWS,
-  TELEGRAM_BOT_URL, TELEGRAM_CONTACT_URL, AVITO_PROFILE_URL,
+  AVITO_PROFILE_URL,
   fmtRub, minTotal, phoneCardImg, realImg, type PhoneModel,
 } from '../data'
 
@@ -20,7 +19,7 @@ function HeroCard({ model, big }: { model: PhoneModel, big?: boolean }) {
         <p className="hero-tagline">{model.tagline}</p>
         <p className="hero-price">От {fmtRub(minTotal(model.id))}</p>
         <div className="hero-card-cta">
-          <a href={`#/phone/${model.id}`} className="btn-outline">Подробнее</a>
+          <a href={`#/phone/${model.id}`} className="btn-outline">Конфигуратор</a>
           <a href={`#/phone/${model.id}`} className="link-buy">Купить <ChevronRight size={16} /></a>
         </div>
       </div>
@@ -31,8 +30,6 @@ function HeroCard({ model, big }: { model: PhoneModel, big?: boolean }) {
     </div>
   )
 }
-
-const PILLAR_ICONS = { shield: Shield, lock: Lock, eye: Eye, cpu: Cpu, battery: Battery, refresh: RefreshCw }
 
 export default function Home() {
   const [faqOpen, setFaqOpen] = useState<number | null>(0)
@@ -71,27 +68,25 @@ export default function Home() {
           </p>
           <div className="buy-grid">
             <div className="buy-card">
-              <div className="pillar-icon"><PackageCheck size={24} strokeWidth={1.5} /></div>
               <h3>Готовый новый Pixel с GrapheneOS</h3>
               <p>
-                Выбираете аппарат и конфигурацию в каталоге, оформляете заказ через @PixelReadyBot.
-                Телефон новый, под заказ: конфигурацию, наличие у поставщика, итоговую стоимость
-                и срок мы согласовываем до оплаты.
+                Выбираете аппарат и конфигурацию в каталоге, переходите в профиль на Авито.
+                Телефон новый, под заказ: конфигурацию, наличие у проверенного поставщика, итоговую стоимость
+                и срок отправки мы фиксируем в переписке до оплаты.
               </p>
-              <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn-tg">
-                <Send size={17} /> Заказать в Telegram
+              <a href={AVITO_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="btn-avito">
+                <MessageSquare size={17} /> Написать на Авито
               </a>
             </div>
             <div className="buy-card">
-              <div className="pillar-icon"><Smartphone size={24} strokeWidth={1.5} /></div>
               <h3>GrapheneOS на ваш собственный Pixel</h3>
               <p>
-                Уже есть подходящий Pixel? Обсудите с Леонидом возможность установки —
-                в том числе удалённой. Поддерживаемость конкретной модели и разблокировку
-                загрузчика проверяем заранее, до каких-либо договорённостей.
+                Уже есть подходящий аппарат Google Pixel? Напишите нам в сообщения на Авито для консультации
+                по установке. Совместимость конкретной модели и состояние загрузчика проверяем заранее,
+                до каких-либо договорённостей.
               </p>
-              <a href={TELEGRAM_CONTACT_URL} target="_blank" rel="noopener noreferrer" className="btn-outline-dark">
-                <MessageCircle size={17} /> Задать вопрос
+              <a href={AVITO_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="btn-outline-dark">
+                <MessageSquare size={17} /> Задать вопрос на Авито
               </a>
             </div>
           </div>
@@ -107,18 +102,17 @@ export default function Home() {
             Всё, что есть в Pixel, плюс контроль над данными на уровне операционной системы.
             Мы устанавливаем GrapheneOS — открытую ОС, код которой может проверить каждый.
           </p>
-          <div className="pillars">
-            {PILLARS.map((p, i) => {
-              const Icon = PILLAR_ICONS[p.icon]
-              return (
-                <div className="pillar" key={i}>
-                  <div className="pillar-icon"><Icon size={24} strokeWidth={1.5} /></div>
-                  <p>{p.text}</p>
-                </div>
-              )
-            })}
+          <div className="pillars-clean">
+            {PILLARS.map((p, i) => (
+              <div className="pillar-clean-card" key={i}>
+                <span className="pillar-clean-num">0{i + 1}</span>
+                <p>{p.text}</p>
+              </div>
+            ))}
           </div>
-          <a href="#/grapheneos" className="btn-outline-dark">Что такое GrapheneOS и зачем он вам <ChevronRight size={16} /></a>
+          <a href="#/grapheneos" className="btn-outline-dark" style={{ marginTop: 24, display: 'inline-flex' }}>
+            Что такое GrapheneOS и предыстория названия <ChevronRight size={16} />
+          </a>
         </div>
       </section>
 
@@ -206,11 +200,11 @@ export default function Home() {
             Все отзывы — профиль продавца на Авито <ChevronRight size={16} />
           </a>
           <div className="reviews-cta">
-            <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn-tg">
-              <Send size={17} /> Заказать в Telegram
+            <a href={AVITO_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="btn-avito">
+              <MessageSquare size={17} /> Написать на Авито
             </a>
-            <a href={TELEGRAM_CONTACT_URL} target="_blank" rel="noopener noreferrer" className="btn-outline-dark">
-              <MessageCircle size={17} /> Задать вопрос
+            <a href="#/payment" className="btn-outline-dark">
+              Условия оплаты и доставки
             </a>
           </div>
         </div>

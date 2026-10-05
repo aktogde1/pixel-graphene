@@ -13,3 +13,6 @@ pixels.json
 tmp-sitewb-req-shot3.json
 clean_render.py
 tsconfig.tsbuildinfo
+.aistudio/
+.env
+.env.local
